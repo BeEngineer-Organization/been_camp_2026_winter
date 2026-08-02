@@ -1003,6 +1003,7 @@ function initScheduleTabs() {
         document.querySelectorAll('.schedule-mobile').forEach((block) => {
           block.classList.remove('active');
         });
+        updateScheduleNote(null);
       } else {
         // すべてのタブボタンの絵文字を📅に戻す
         tabButtons.forEach(btn => {
@@ -1026,8 +1027,26 @@ function initScheduleTabs() {
             block.classList.remove('active');
           }
         });
+
+        updateScheduleNote(targetTab);
       }
     });
+  });
+
+  // 初期表示（デフォルトでactiveなタブ）に合わせて注釈の表示を同期
+  const initialTab = document.querySelector('.schedule-tabs .tab-btn.active');
+  updateScheduleNote(initialTab ? initialTab.getAttribute('data-tab') : null);
+}
+
+/**
+ * スケジュール表下の注釈の表示/非表示を切り替える
+ * data-note-days に列挙した日のタブが開いているときだけ表示する
+ * @param {string|null} activeTabId - 現在開いているタブのID（未選択時はnull）
+ */
+function updateScheduleNote(activeTabId) {
+  document.querySelectorAll('[data-schedule-note]').forEach((note) => {
+    const days = (note.getAttribute('data-note-days') || '').split(/\s+/).filter(Boolean);
+    note.hidden = !activeTabId || (days.length > 0 && !days.includes(activeTabId));
   });
 }
 
