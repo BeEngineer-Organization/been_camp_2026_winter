@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ブログ目次（TOC）を自動生成 + スクロールスパイ
   initBlogToc();
+  initBlogImageSliders();
 
   // サイドバーキャラクターの吹き出し（ランダムコメント）
   initSidebarCharacterBubbles();
@@ -442,6 +443,144 @@ function initBlogTocMobile(links) {
     if (e.key === 'Escape' && modal.classList.contains('open')) {
       closeModal();
     }
+  });
+}
+
+/**
+ * ブログ画像ギャラリー（SP用スライド）
+ * 2枚以上の .blog-images を横スワイプ＋左右ボタン＋ドット＋自動再生にする
+ * PCではトラックを display:contents にし、従来どおりグリッド表示
+ */
+function initBlogImageSliders() {
+  const AUTO_SLIDE_MS = 4500;
+  const galleries = document.querySelectorAll('.blog-images');
+  if (galleries.length === 0) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isSpView = () => window.matchMedia('(max-width: 768px)').matches;
+
+  galleries.forEach((gallery) => {
+    if (gallery.dataset.sliderInit === '1') return;
+
+    const images = Array.from(gallery.querySelectorAll(':scope > .blog-image'));
+    if (images.length <= 1) return;
+
+    gallery.dataset.sliderInit = '1';
+    gallery.classList.add('blog-images--slider');
+
+    const track = document.createElement('div');
+    track.className = 'blog-images-track';
+    images.forEach((image) => track.appendChild(image));
+    gallery.appendChild(track);
+
+    const prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.className = 'blog-images-nav blog-images-nav--prev';
+    prevBtn.setAttribute('aria-label', '前の写真');
+    prevBtn.innerHTML = '<span aria-hidden="true">‹</span>';
+
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'blog-images-nav blog-images-nav--next';
+    nextBtn.setAttribute('aria-label', '次の写真');
+    nextBtn.innerHTML = '<span aria-hidden="true">›</span>';
+
+    gallery.appendChild(prevBtn);
+    gallery.appendChild(nextBtn);
+
+    const dots = document.createElement('div');
+    dots.className = 'blog-images-dots';
+    dots.setAttribute('role', 'tablist');
+    dots.setAttribute('aria-label', '写真スライド');
+
+    const getIndex = () => {
+      const width = track.clientWidth || 1;
+      return Math.max(0, Math.min(images.length - 1, Math.round(track.scrollLeft / width)));
+    };
+
+    const goTo = (index, behavior = 'smooth') => {
+      const clamped = ((index % images.length) + images.length) % images.length;
+      track.scrollTo({
+        left: clamped * track.clientWidth,
+        behavior: behavior,
+      });
+    };
+
+    const dotButtons = images.map((_, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'blog-images-dot';
+      button.setAttribute('aria-label', (index + 1) + '枚目の写真');
+      if (index === 0) button.setAttribute('aria-current', 'true');
+      button.addEventListener('click', () => {
+        goTo(index);
+        restartAutoplay();
+      });
+      dots.appendChild(button);
+      return button;
+    });
+
+    gallery.appendChild(dots);
+
+    const updateActiveDot = () => {
+      const clamped = getIndex();
+      dotButtons.forEach((button, index) => {
+        if (index === clamped) {
+          button.setAttribute('aria-current', 'true');
+        } else {
+          button.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    prevBtn.addEventListener('click', () => {
+      goTo(getIndex() - 1);
+      restartAutoplay();
+    });
+    nextBtn.addEventListener('click', () => {
+      goTo(getIndex() + 1);
+      restartAutoplay();
+    });
+
+    track.addEventListener('scroll', updateActiveDot, { passive: true });
+    window.addEventListener('resize', updateActiveDot);
+
+    let autoplayTimer = null;
+    const stopAutoplay = () => {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    };
+    const startAutoplay = () => {
+      if (prefersReducedMotion || !isSpView()) return;
+      stopAutoplay();
+      autoplayTimer = setInterval(() => {
+        goTo(getIndex() + 1);
+      }, AUTO_SLIDE_MS);
+    };
+    const restartAutoplay = () => {
+      stopAutoplay();
+      startAutoplay();
+    };
+
+    // 操作中は一時停止、離れたら再開
+    gallery.addEventListener('pointerenter', stopAutoplay);
+    gallery.addEventListener('pointerleave', startAutoplay);
+    track.addEventListener('touchstart', stopAutoplay, { passive: true });
+    track.addEventListener('touchend', () => {
+      restartAutoplay();
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      if (isSpView()) {
+        startAutoplay();
+      } else {
+        stopAutoplay();
+      }
+    });
+
+    startAutoplay();
   });
 }
 

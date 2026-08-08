@@ -27,7 +27,18 @@
 // ============================================================
 
 const NEWS_ITEMS = [
-  // 1. 忘れ物確認
+  // 1. 合宿ブログ 1日目
+  {
+    icon: '📝',
+    title: '合宿ブログ 1日目を公開しました',
+    description: '新しい仲間との出会いや、トランプゲーム実装のスタートなど、合宿1日目の様子をお届けします。',
+    linkLabel: '1日目のブログを見る',
+    linkUrl: 'blog/day1.html',
+    image: 'blog/images1/day1_1.jpg',
+    imagePosition: 'center center',
+  },
+
+  // 2. 忘れ物確認
   {
     icon: '🎒',
     title: '忘れ物確認',
