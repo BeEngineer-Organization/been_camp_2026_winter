@@ -27,7 +27,18 @@
 // ============================================================
 
 const NEWS_ITEMS = [
-  // 1. 合宿ブログ 1日目
+  // 1. 合宿ブログ 2日目
+  {
+    icon: '📝',
+    title: '合宿ブログ 2日目を公開しました',
+    description: '戦略をコードに落とし込む授業やBBQ、BeEnCupに向けた準備など、合宿2日目の様子をお届けします。',
+    linkLabel: '2日目のブログを見る',
+    linkUrl: 'blog/day2.html',
+    image: 'blog/images2/day2_9_1.jpg',
+    imagePosition: 'center center',
+  },
+
+  // 2. 合宿ブログ 1日目
   {
     icon: '📝',
     title: '合宿ブログ 1日目を公開しました',
@@ -36,42 +47,6 @@ const NEWS_ITEMS = [
     linkUrl: 'blog/day1.html',
     image: 'blog/images1/day1_1.jpg',
     imagePosition: 'center center',
-  },
-
-  // 2. 忘れ物確認
-  {
-    icon: '🎒',
-    title: '忘れ物確認',
-    description: '出発前にもう一度忘れ物がないか、持ち物をチェックしよう！',
-    linkLabel: '詳細を確認する',
-    linkUrl: '#items', 
-  },
-
-  // 2. 集合時間の確認
-  {
-    icon: '⏰',
-    title: '集合時間の確認',
-    description: '13時から14時に間に合うように、もう一度スケジュールを確認しよう！',
-    linkLabel: '詳細を確認する',
-    linkUrl: '#schedule', 
-  },
-
-  // 3. 電車の待ち合わせ
-  {
-    icon: '🚃',
-    title: '電車の待ち合わせ',
-    description: '**JR奈良線・城陽駅の改札前**でスタッフが待機しています。\n**13:07発のバス**までご案内します。\n※一緒に乗車しますので、降車のタイミングもご案内します。',
-    image: 'assets/guide/station.jpeg', // 例: 'assets/news/train.jpg' を入れてください。空なら画像枠が表示されます
-  },
-
-  // 4. 引率講師の顔写真（← このカードには画像枠があります）
-  {
-    icon: '👨‍🏫',
-    title: '引率講師の紹介',
-    description: '当日は藤原先生が案内してくれます。この先生を目印に集合しよう！',
-    
-    image: 'assets/teachers/fujiwara_portrait.png', // 例: 'assets/news/teacher.jpg' を入れてください。空なら画像枠が表示されます
-    imagePosition: 'center 15%',
   },
 ];
 

@@ -70,6 +70,7 @@
             <a href="${anchor('blog')}">ブログ</a>
             <ul class="submenu">
               <li><a href="${blogLink(1)}">1日目</a></li>
+              <li><a href="${blogLink(2)}">2日目</a></li>
             </ul>
           </li>
           <li><a href="${anchor('guide')}">ご案内</a></li>
@@ -108,10 +109,6 @@
           <li><a href="items.html">🎒 持ち物チェック</a></li>
           <li><a href="${rootBase}index.html">🏠 メインページ</a></li>
           <li class="nav-divider">
-            <span class="nav-section-label">📝 ブログ確認（未公開）</span>
-          </li>
-          <li><a href="${rootBase}blog/day2.html">2日目ブログ</a></li>
-          <li class="nav-divider">
             <span class="nav-section-label">🗓️ MTGページ</span>
           </li>
           <li><a href="mtg-day1.html">1日目 MTG</a></li>
@@ -140,10 +137,6 @@
           <li><a href="${rootBase}index.html">🏠 メインページ</a></li>
           <li><a href="schedule.html">📋 スタッフスケジュール</a></li>
           <li><a href="items.html">🎒 持ち物チェック</a></li>
-          <li class="nav-divider">
-            <span class="nav-section-label">📝 ブログ確認（未公開）</span>
-          </li>
-          <li><a href="${rootBase}blog/day2.html">2日目ブログ</a></li>
           <li class="nav-divider">
             <span class="nav-section-label">🗓️ MTGページ</span>
           </li>
