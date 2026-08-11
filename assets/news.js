@@ -27,7 +27,18 @@
 // ============================================================
 
 const NEWS_ITEMS = [
-  // 1. 合宿ブログ 2日目
+  // 1. 合宿ブログ 3日目
+  {
+    icon: '📝',
+    title: '合宿ブログ 3日目を公開しました',
+    description: '学びの集大成、BeEnCupや表彰式・閉講式など、最終日の様子をお届けします。',
+    linkLabel: '3日目のブログを見る',
+    linkUrl: 'blog/day3.html',
+    image: 'blog/images3/day3_6_2.jpg',
+    imagePosition: 'center center',
+  },
+
+  // 2. 合宿ブログ 2日目
   {
     icon: '📝',
     title: '合宿ブログ 2日目を公開しました',
@@ -38,7 +49,7 @@ const NEWS_ITEMS = [
     imagePosition: 'center center',
   },
 
-  // 2. 合宿ブログ 1日目
+  // 3. 合宿ブログ 1日目
   {
     icon: '📝',
     title: '合宿ブログ 1日目を公開しました',

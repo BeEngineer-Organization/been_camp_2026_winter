@@ -71,6 +71,7 @@
             <ul class="submenu">
               <li><a href="${blogLink(1)}">1日目</a></li>
               <li><a href="${blogLink(2)}">2日目</a></li>
+              <li><a href="${blogLink(3)}">3日目</a></li>
             </ul>
           </li>
           <li><a href="${anchor('guide')}">ご案内</a></li>
