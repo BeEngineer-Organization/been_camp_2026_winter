@@ -1565,6 +1565,16 @@ body.teacher-modal-open {
   border-top-color: var(--color-secondary);
 }
 
+/* お知らせが1件だけのときは、左に寄らないよう中央に配置する */
+.news-card:only-child {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  align-items: center;
+  text-align: center;
+}
+
 .news-card-icon {
   font-size: 2.2rem;
   line-height: 1;
@@ -2438,9 +2448,12 @@ body.teacher-modal-open {
    お問い合わせ
    ============================================ */
 
+/* カードが1枚でも2枚でも中央に並ぶようにする
+   （緊急連絡先カードを非表示にしている間は、メールのカードが中央に来ます） */
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 480px));
+  justify-content: center;
   gap: 2rem;
 }
 

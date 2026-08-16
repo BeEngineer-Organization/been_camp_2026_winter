@@ -10,7 +10,8 @@
 // ・各カードの設定項目：
 //     icon        … カード左上のアイコン（絵文字でOK）
 //     title       … カードのタイトル
-//     description … 短い説明文（未入力なら仮テキストが表示されます）
+//     description … 短い説明文（空 "" のままなら仮テキストが表示されます）
+//                   ※ description 項目を書かないカードは、説明文なしの見出しだけのカードになります
 //     linkLabel   … ボタンの文字（例：「詳細を確認する」）
 //     linkUrl     … ボタンのリンク先URL。空 "" のままなら「準備中」表示になります
 //     image       … 顔写真などの画像。空 "" のままなら画像枠（プレースホルダー）が表示されます
@@ -27,37 +28,10 @@
 // ============================================================
 
 const NEWS_ITEMS = [
-  // 1. 合宿ブログ 3日目
+  // 1. 合宿終了のお知らせ
   {
-    icon: '📝',
-    title: '合宿ブログ 3日目を公開しました',
-    description: '学びの集大成、BeEnCupや表彰式・閉講式など、最終日の様子をお届けします。',
-    linkLabel: '3日目のブログを見る',
-    linkUrl: 'blog/day3.html',
-    image: 'blog/images3/day3_6_2.jpg',
-    imagePosition: 'center center',
-  },
-
-  // 2. 合宿ブログ 2日目
-  {
-    icon: '📝',
-    title: '合宿ブログ 2日目を公開しました',
-    description: '戦略をコードに落とし込む授業やBBQ、BeEnCupに向けた準備など、合宿2日目の様子をお届けします。',
-    linkLabel: '2日目のブログを見る',
-    linkUrl: 'blog/day2.html',
-    image: 'blog/images2/day2_9_1.jpg',
-    imagePosition: 'center center',
-  },
-
-  // 3. 合宿ブログ 1日目
-  {
-    icon: '📝',
-    title: '合宿ブログ 1日目を公開しました',
-    description: '新しい仲間との出会いや、トランプゲーム実装のスタートなど、合宿1日目の様子をお届けします。',
-    linkLabel: '1日目のブログを見る',
-    linkUrl: 'blog/day1.html',
-    image: 'blog/images1/day1_1.jpg',
-    imagePosition: 'center center',
+    icon: '📢',
+    title: 'BeEngineer合宿2026夏は終了しました。',
   },
 ];
 
@@ -78,22 +52,23 @@ const NEWS_ITEMS = [
       .replace(/'/g, '&#39;');
   }
 
+  // 説明文の整形（改行 → <br>、**強調** → 太字）
+  function formatDescription(value) {
+    return escapeHtml(value || 'こちらにお知らせ内容が入ります。（準備中）')
+      .replace(/\n/g, '<br>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  }
+
   // 1枚分のカードHTMLを組み立てる
   function buildCard(item) {
     var icon = escapeHtml(item.icon || '📌');
     var title = escapeHtml(item.title || 'タイトル未設定');
-    var description = function formatDescription(value) {
-  return escapeHtml(value || 'こちらにお知らせ内容が入ります。（準備中）')
-    .replace(/\n/g, '<br>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-}
-(item.description || 'こちらにお知らせ内容が入ります。（準備中）');
-    function formatDescription(value) {
-  return escapeHtml(value || 'こちらにお知らせ内容が入ります。（準備中）')
-    .replace(/\n/g, '<br>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-}
-
+    // 説明文（description 項目を持つカードのみ）
+    var descriptionHtml = '';
+    if (Object.prototype.hasOwnProperty.call(item, 'description')) {
+      descriptionHtml =
+        '<p class="news-card-desc">' + formatDescription(item.description) + '</p>';
+    }
 
     // 画像枠（image プロパティを持つカードのみ）
     var imageHtml = '';
@@ -139,7 +114,7 @@ const NEWS_ITEMS = [
       '<div class="news-card-icon">' + icon + '</div>' +
       imageHtml +
       '<h4 class="news-card-title">' + title + '</h4>' +
-      '<p class="news-card-desc">' + description + '</p>' +
+      descriptionHtml +
       linkAreaHtml +
       '</article>'
     );
