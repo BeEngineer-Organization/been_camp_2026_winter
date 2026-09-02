@@ -11,7 +11,7 @@
 
 window.TOKYO_TRAVEL_SCHEDULE = {
   outbound: {
-    dateLabel: '8/8(土)',
+    dateLabel: '12/26(土)',
     directionLabel: '【行き】',
     trainLabel: '新幹線：のぞみ353号 / 博多行き',
     items: [
@@ -58,7 +58,7 @@ window.TOKYO_TRAVEL_SCHEDULE = {
     ],
   },
   return: {
-    dateLabel: '8/10(月)',
+    dateLabel: '12/28(月)',
     directionLabel: '【帰り】',
     trainLabel: '新幹線：のぞみ440号 / 東京行き',
     items: [

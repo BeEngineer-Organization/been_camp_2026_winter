@@ -16,7 +16,7 @@
 (function() {
     // パスワードのハッシュ値（SHA-256）
     // 変更方法: SETUP_HASH.md を参照
-    const PASSWORD_HASH = '702f7c92c0866d174f3c051e50678e10bcb1dda3be7af6f5a53e7f7a38385281';
+    const PASSWORD_HASH = '4934c970aa14183e48ba1b5deca42dcd863ad350b61d9f331062d61048881d6a';
     
     const passwordOverlay = document.getElementById('passwordOverlay');
     const mainContent = document.getElementById('mainContent');

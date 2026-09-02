@@ -78,7 +78,9 @@
           <li><a href="${anchor('overview')}">日程・会場</a></li>
           <li><a href="${anchor('teachers')}">引率講師の紹介</a></li>
           <li><a href="${anchor('program')}">学習内容</a></li>
+          <!-- 冬合宿では非表示。再掲時はこのコメントを外す。
           <li><a href="${quizLink}" target="_blank" rel="noopener">合宿クイズ 🔒</a></li>
+          -->
           <li><a href="${anchor('schedule')}">スケジュール</a></li>
           <li><a href="${anchor('floormap')}">フロアマップ</a></li>
           <li><a href="${anchor('items')}">持ち物</a></li>
