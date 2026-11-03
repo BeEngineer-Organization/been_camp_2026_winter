@@ -1,225 +1,213 @@
 // ============================================
-// BeEngineer Programming Camp - Main Script
+// BeEngineer プログラミングキャンプ 2026 冬 - 案内ページ / ブログ共通スクリプト
+// ※ スタッフページは staff/legacy-script.js を使用
 // ============================================
 
-/**
- * DOMContentLoaded イベント
- * ページ読み込み完了後に実行
- */
-document.addEventListener('DOMContentLoaded', function() {
-  
-  // 持ち物チェックリスト機能を初期化
-  initChecklistFeature();
-  
-  // スムーススクロール機能を初期化
-  initSmoothScroll();
-  
-  // ハンバーガーメニュー機能を初期化
-  initHamburgerMenu();
-  
-  // プログラムカードのトグル機能を初期化（SP版のみ）
-  initProgramCardToggle();
-  
-  // 学習プログラムのタブ機能を初期化（SP版のみ）
-  initProgramTabs();
-  
-  // スケジュールのトグル機能を初期化（SP版のみ）
-  initScheduleToggle();
-  
-  // アクセス方法のトグル機能を初期化（SP版のみ）
-  initAccessToggle();
-  
-  // 持ち物リストのトグル機能を初期化（SP版のみ）
-  initItemsToggle();
-  
-  // ブログメニューのサブメニュートグル機能を初期化（SP版のみ）
-  initBlogSubmenuToggle();
-  
-  // フロアマップのトグル機能を初期化（SP版のみ）
-  initFloormapToggle();
-  
-  // フロアマップのタブ機能を初期化（PC版）
-  initFloormapTabs();
-
-  // 施設タブ（プラムイン / アイリスイン）の切り替えを初期化
-  initFacilityTabs();
-  
-  // スクロールスパイ機能を初期化
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu();
+  initHeaderScroll();
   initScrollSpy();
-  
-  // スケジュール：描画（schedule.js）→ SPカード → タブ切替（順序固定）
-  initScheduleMobileView();
-  initScheduleTabs();
-  
-  // アクセスタブの切り替え機能を初期化
-  initAccessTabs();
-  
-  // ご案内セクションのトグル機能を初期化（SP版のみ）
-  initGuideToggle();
-  
-  // LINEアカウントセクションのトグル機能を初期化（SP版のみ）
-  initLineToggle();
-  
-  // ブログ更新セクションのトグル機能を初期化（SP版のみ）
-  initBlogUpdateToggle();
-  
-  // フッターのキャラクター画像をSP版でロゴの隣に配置
-  initFooterCharacters();
+  initSnowfall();
+  initCountdown();
 
-  // ブログ目次（TOC）を自動生成 + スクロールスパイ
+  initScheduleTabs();
+  initFacilityTabs();
+  initAccessTabs();
+  initImageZoom();
+
+  initChecklistFeature();
+  initBlogButtonGate();
+
+  // ブログ記事ページ
   initBlogToc();
   initBlogImageSliders();
 
-  // サイドバーキャラクターの吹き出し（ランダムコメント）
-  initSidebarCharacterBubbles();
-
-  // ブログボタンの公開時刻ゲート
-  initBlogButtonGate();
-
+  initFadeIn();
+  initToTop();
 });
 
-/**
- * SP 用：スケジュール表（横スクロールが必要なテーブル）を
- * 「時間 / 場所 / 内容」を1行、その下に「備考」を1行（全幅）のカード形式に組み直す。
- * 元のタブボタンと .active 状態を同期させる。
- */
-function initScheduleMobileView() {
-  const wrapper = document.querySelector('.schedule-table-wrapper');
-  if (!wrapper) return;
+const CAMP_START = new Date(2026, 11, 26); // 合宿初日 12/26（月は 0 始まり）
+const CAMP_END = new Date(2026, 11, 28); // 最終日 12/28
 
-  const existing = document.querySelector('.schedule-mobile-container');
-  if (existing) existing.remove();
+/* ============================================
+   メニュー（ヘッダーの MENU ボタン / SP はハンバーガー）
+   ============================================ */
+function initMenu() {
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('site-menu');
+  if (!toggle || !menu) return;
 
-  const rows = wrapper.querySelectorAll('.schedule-row');
-  if (rows.length === 0) return;
-
-  const mobileContainer = document.createElement('div');
-  mobileContainer.className = 'schedule-mobile-container';
-
-  rows.forEach((row) => {
-    const block = document.createElement('div');
-    block.className = 'schedule-mobile';
-    block.setAttribute('data-day', row.id);
-    if (row.classList.contains('active')) {
-      block.classList.add('active');
+  const setOpen = (open) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+    menu.hidden = !open;
+    document.body.classList.toggle('is-menu-open', open);
+    if (open) {
+      const first = menu.querySelector('a');
+      if (first) first.focus({ preventScroll: true });
     }
+  };
 
-    const times = row.querySelectorAll('.time-slot');
-    const locations = row.querySelectorAll('.location-item');
-    const activities = row.querySelectorAll('.activity');
-    const notes = row.querySelectorAll('.note-item');
+  toggle.addEventListener('click', () => {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
 
-    const count = Math.max(times.length, locations.length, activities.length, notes.length);
+  menu.querySelectorAll('a, [data-menu-close]').forEach((el) => {
+    el.addEventListener('click', () => setOpen(false));
+  });
 
-    for (let i = 0; i < count; i++) {
-      const card = document.createElement('div');
-      card.className = 'schedule-mobile-card';
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !menu.hidden) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+}
 
-      const head = document.createElement('div');
-      head.className = 'schedule-mobile-head';
+/* ヘッダー：少しスクロールしたら背景を付ける */
+function initHeaderScroll() {
+  const header = document.querySelector('[data-site-header]');
+  if (!header) return;
+  const update = () => header.classList.toggle('is-scrolled', window.scrollY > 24);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+}
 
-      const t = document.createElement('div');
-      t.className = 'schedule-mobile-time';
-      if (times[i]) t.innerHTML = times[i].innerHTML;
-      head.appendChild(t);
+/* ============================================
+   スクロールスパイ：表示中のセクションのメニューをハイライト
+   ============================================ */
+function initScrollSpy() {
+  const links = document.querySelectorAll('[data-nav-link]');
+  if (links.length === 0 || !('IntersectionObserver' in window)) return;
 
-      const l = document.createElement('div');
-      l.className = 'schedule-mobile-location';
-      if (locations[i]) l.innerHTML = locations[i].innerHTML;
-      head.appendChild(l);
+  const ids = new Set(Array.from(links, (link) => link.dataset.navLink));
+  const sections = Array.from(ids)
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  if (sections.length === 0) return;
 
-      const a = document.createElement('div');
-      a.className = 'schedule-mobile-activity';
-      if (activities[i]) a.innerHTML = activities[i].innerHTML;
-      head.appendChild(a);
-
-      card.appendChild(head);
-
-      if (notes[i] && notes[i].innerHTML.trim()) {
-        const n = document.createElement('div');
-        n.className = 'schedule-mobile-note';
-        n.innerHTML = notes[i].innerHTML;
-        card.appendChild(n);
+  const setActive = (id) => {
+    links.forEach((link) => {
+      const active = link.dataset.navLink === id;
+      link.classList.toggle('is-active', active);
+      if (active) {
+        link.setAttribute('aria-current', 'location');
+      } else {
+        link.removeAttribute('aria-current');
       }
+    });
+  };
 
-      block.appendChild(card);
-    }
-
-    mobileContainer.appendChild(block);
-  });
-
-  wrapper.parentNode.insertBefore(mobileContainer, wrapper.nextSibling);
-}
-
-/**
- * ブログボタンのゲート：data-available-from で指定した日時より前は
- * リンクを無効化し「準備中」メッセージを表示する
- */
-function initBlogButtonGate() {
-  const buttons = document.querySelectorAll('.blog-link-btn[data-available-from]');
-  if (buttons.length === 0) return;
-
-  const now = new Date();
-  const toast = createBlogToast();
-  let toastTimer = null;
-
-  buttons.forEach((btn) => {
-    const availableFromStr = btn.getAttribute('data-available-from');
-    const availableFrom = new Date(availableFromStr);
-    if (isNaN(availableFrom.getTime())) return;
-
-    if (now < availableFrom) {
-      btn.classList.add('is-locked');
-      btn.setAttribute('aria-disabled', 'true');
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        toast.textContent = '準備中です。しばらくお待ちください';
-        toast.classList.add('show');
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => {
-          toast.classList.remove('show');
-        }, 2400);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActive(entry.target.id);
       });
-    }
+    },
+    { rootMargin: '-30% 0px -60% 0px' }
+  );
+  sections.forEach((section) => observer.observe(section));
+}
+
+/* ============================================
+   背景の雪（広告LPと同じピクセル調の雪）
+   粒ごとに速さ・揺れ幅・周期をランダムにし、座標を1ドット単位に丸めて描画。
+   動きを減らす設定のときは止めたまま表示する
+   ============================================ */
+function initSnowfall() {
+  const canvas = document.querySelector('[data-snowfall]');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const DOT = 2; // 1ドットの大きさ（CSS px）
+  let flakes = [];
+  let width = 0;
+  let height = 0;
+  let rafId = 0;
+  let last = 0;
+
+  const random = (min, max) => min + Math.random() * (max - min);
+
+  const createFlake = (y) => ({
+    x: random(0, width),
+    y,
+    phase: random(0, Math.PI * 2),
+    size: DOT * Math.ceil(random(0.5, 2.5)), // 2px または 4px（まれに 6px）
+    speed: random(18, 48), // 落下速度（px/秒）
+    drift: random(-8, 8), // 風
+    sway: random(6, 22), // 横揺れの幅
+    freq: random(0.3, 1.1), // 横揺れの速さ
+    alpha: random(0.35, 0.75),
   });
+
+  // 案内ページは読み物なので、広告LPより少し控えめな量にする
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const count = Math.min(90, Math.round((width * height) / 14000));
+    flakes = Array.from({ length: count }, () => createFlake(random(0, height)));
+  };
+
+  const draw = (time) => {
+    ctx.clearRect(0, 0, width, height);
+    flakes.forEach((f) => {
+      const x = Math.round((f.x + Math.sin(time * f.freq + f.phase) * f.sway) / DOT) * DOT;
+      const y = Math.round(f.y / DOT) * DOT;
+      ctx.fillStyle = `rgba(255, 255, 255, ${f.alpha})`;
+      ctx.fillRect(x, y, f.size, f.size);
+    });
+  };
+
+  const tick = (now) => {
+    const dt = Math.min((now - last) / 1000, 0.1);
+    last = now;
+    flakes.forEach((f, i) => {
+      f.y += f.speed * dt;
+      f.x += f.drift * dt;
+      if (f.y > height + 24) {
+        flakes[i] = createFlake(-24);
+      } else if (f.x < -40) {
+        f.x += width + 80;
+      } else if (f.x > width + 40) {
+        f.x -= width + 80;
+      }
+    });
+    draw(now / 1000);
+    rafId = requestAnimationFrame(tick);
+  };
+
+  const start = () => {
+    cancelAnimationFrame(rafId);
+    if (reduceMotion.matches || document.hidden) {
+      draw(0);
+      return;
+    }
+    last = performance.now();
+    rafId = requestAnimationFrame(tick);
+  };
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      resize();
+      start();
+    }, 150);
+  });
+  reduceMotion.addEventListener('change', start);
+  document.addEventListener('visibilitychange', start);
+
+  resize();
+  start();
 }
 
-function createBlogToast() {
-  let toast = document.getElementById('blogToast');
-  if (toast) return toast;
-  toast = document.createElement('div');
-  toast.id = 'blogToast';
-  toast.className = 'blog-toast';
-  toast.setAttribute('role', 'status');
-  toast.setAttribute('aria-live', 'polite');
-  document.body.appendChild(toast);
-  return toast;
-}
-
-/**
- * サイドバー下：左キャラ（dot_girl）と右キャラ（dot_boy）の間に
- * 吹き出しを 1 つインラインで挿入する。
- * 文言は「今日の日付」に応じて出し分ける（→ getSidebarBubbleMessage）。
- * ※ ランダム表示・しっぽの向きランダムは一旦解除。
- */
-function initSidebarCharacterBubbles() {
-  const girl = document.querySelector('.sidebar-footer-char-left');
-  const boy = document.querySelector('.sidebar-footer-char-right');
-  if (!girl || !boy) return;
-
-  const footer = girl.parentNode;
-  if (!footer || footer.querySelector('.sidebar-char-bubble')) return; // 二重挿入防止
-
-  const message = getSidebarBubbleMessage();
-  if (!message) return; // 表示しない日は吹き出しを作らない
-
-  const bubble = document.createElement('span');
-  bubble.className = 'sidebar-char-bubble';
-  bubble.textContent = message;
-
-  // 左キャラ ←[吹き出し]→ 右キャラ の順に並ぶよう、boy の直前に挿入
-  footer.insertBefore(bubble, boy);
-}
+/* ============================================
+   カウントダウン・当日の進行（FV のキャラクターの吹き出し）
+   ============================================ */
 
 /**
  * 合宿当日（12/26〜12/28）の吹き出し文言。日付ごとに「時間帯スロット」で管理する。
@@ -230,7 +218,7 @@ function initSidebarCharacterBubbles() {
  *   例）14:00〜14:30 に出したい文言は from:'14:00'（次のスロット from:'14:30' まで有効）。
  * ・1日の始まりは必ず from:'00:00' のスロットから書く。
  * ・改行したいときは文中に \n を入れる（吹き出しは pre-line で改行を表示）。
- * ・2日目(12/27)・3日目(12/28)は仮の文言。決まったら差し替えてください。
+ * ・時刻は assets/schedule-data.js のスケジュールに合わせています。変更時は両方を確認してください。
  */
 const CAMP_SCHEDULE = {
   // ── 1日目 12/26（土） ───────────────────────────────
@@ -245,70 +233,54 @@ const CAMP_SCHEDULE = {
   ],
   // ── 2日目 12/27（日）──────────────────────
   '2026-12-27': [
-    { from: '00:00', text: '早く寝ましょう！' }, 
-    { from: '04:00', text: 'おはよう！\n合宿2日目！' }, 
-    { from: '07:00', text: '元気に朝活！' }, 
-    { from: '08:00', text: '朝食タイム' }, 
-    { from: '09:00', text: '授業中！' }, 
-    { from: '12:00', text: '昼食！\nカレーが美味しい！' }, 
-    { from: '13:00', text: '授業中！' }, 
-    { from: '17:00', text: 'BBQタイムだぁ！！' }, 
-    { from: '20:00', text: '２日目最後の授業！' }, 
-    { from: '21:00', text: 'お疲れ様でした！' }, 
+    { from: '00:00', text: '早く寝ましょう！' },
+    { from: '04:00', text: 'おはよう！\n合宿2日目！' },
+    { from: '07:00', text: '元気に朝活！' },
+    { from: '08:00', text: '朝食タイム' },
+    { from: '09:00', text: 'グループ開発中！' },
+    { from: '12:00', text: '昼食！\nカレーが美味しい！' },
+    { from: '13:00', text: 'グループ開発中！' },
+    { from: '17:00', text: 'BBQタイムだぁ！！' },
+    { from: '20:00', text: '２日目最後の授業！' },
+    { from: '21:00', text: 'お疲れ様でした！' },
   ],
   // ── 3日目 12/28（月） ─────────────────────
   '2026-12-28': [
-    { from: '00:00', text: '早く寝ましょう！' }, 
-    { from: '04:00', text: 'おはよう！\n合宿最終日！' }, 
-    { from: '07:00', text: '朝食タイム' }, 
-    { from: '08:00', text: '元気に朝活！' }, 
-    { from: '09:00', text: '最終調整\n戦いに備える' }, 
-    { from: '10:30', text: '戦いだぁ！！！' }, 
-    { from: '12:00', text: '閉講式'},
-    { from: '13:00', text: 'お疲れ様！\n帰るまでが合宿！' }, 
-    { from: '19:00', text: '合宿の報告をしよう！' }, 
+    { from: '00:00', text: '早く寝ましょう！' },
+    { from: '04:00', text: 'おはよう！\n合宿最終日！' },
+    { from: '07:00', text: '朝食タイム' },
+    { from: '08:00', text: '元気に朝活！' },
+    { from: '09:00', text: '最後の仕上げ！\n発表に向けてがんばろう' },
+    { from: '12:00', text: '閉講式' },
+    { from: '13:00', text: 'お疲れ様！\n帰るまでが合宿！' },
+    { from: '19:00', text: '合宿の報告をしよう！' },
   ],
 };
 
 /**
  * 吹き出しに表示する文言を「今日の日付・時刻」から決定して返す。
  *
- * ・合宿前（〜12/24）     … 「あと○○日！」（12/26までの残り日数を自動計算）
+ * ・合宿前（〜12/24）     … 「合宿まで／あと○○日！」（12/26までの残り日数を自動計算。2行で表示）
  * ・前日（12/25）         … 「いよいよ明日！準備しよう！」
  * ・合宿中（12/26〜12/28）… CAMP_SCHEDULE の時間帯スロットに従う
  * ・合宿後（12/29〜）     … 「ブログ公開中～♪」
  *
  * @returns {string|null} 表示文言。null の場合は吹き出しを出さない。
  */
-function getSidebarBubbleMessage() {
-  // 月は 0 始まりなので 12月 = 11。
-  const START = new Date(2026, 11, 26);  // 合宿初日 12/26
-  const EVE   = new Date(2026, 11, 25);  // 前日 12/25
-  const END   = new Date(2026, 11, 28);  // 最終日 12/28
-
+function getCountdownMessage(now = new Date()) {
   const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-  // 今日を 0:00 に丸める（時刻のブレを除く）
-  const now = new Date();
+  const eve = new Date(CAMP_START.getTime() - MS_PER_DAY);
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  // 前日（12/25）
-  if (today.getTime() === EVE.getTime()) {
-    return 'いよいよ明日！準備しよう！';
+  if (today.getTime() === eve.getTime()) return 'いよいよ明日！準備しよう！';
+
+  if (today < eve) {
+    const days = Math.round((CAMP_START - today) / MS_PER_DAY);
+    return `合宿まで\nあと${days}日！`;
   }
 
-  // 前日より前 → カウントダウン
-  if (today.getTime() < EVE.getTime()) {
-    const days = Math.round((START.getTime() - today.getTime()) / MS_PER_DAY);
-    return `あと${days}日！`;
-  }
-
-  // 合宿期間中（12/26〜12/28）→ 時間帯スロットで判定
-  if (today.getTime() >= START.getTime() && today.getTime() <= END.getTime()) {
-    const y = today.getFullYear();
-    const m = String(today.getMonth() + 1).padStart(2, '0');
-    const d = String(today.getDate()).padStart(2, '0');
-    const slots = CAMP_SCHEDULE[`${y}-${m}-${d}`];
+  if (today >= CAMP_START && today <= CAMP_END) {
+    const slots = CAMP_SCHEDULE[toDateKey(today)];
     if (!slots || !slots.length) return null;
 
     const curMin = now.getHours() * 60 + now.getMinutes();
@@ -320,15 +292,356 @@ function getSidebarBubbleMessage() {
     return text;
   }
 
-  // 合宿後（12/29〜）
   return 'ブログ公開中～♪';
 }
 
+function toDateKey(date) {
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${date.getFullYear()}-${m}-${d}`;
+}
+
+function initCountdown() {
+  const box = document.querySelector('[data-countdown]');
+  const text = document.querySelector('[data-countdown-text]');
+  if (!box || !text) return;
+
+  const update = () => {
+    const message = getCountdownMessage();
+    box.hidden = !message;
+    if (message) renderCountdownText(text, message);
+  };
+  update();
+  setInterval(update, 60 * 1000); // 当日は時間帯で文言が変わるため1分ごとに更新
+}
+
+/* 「あと○○日」の数字だけを強調表示する（文言は textContent で入れるので HTML は解釈しない） */
+function renderCountdownText(el, message) {
+  const match = message.match(/^([\s\S]*あと)(\d+)(日[\s\S]*)$/);
+  if (!match) {
+    el.textContent = message;
+    return;
+  }
+  const num = document.createElement('span');
+  num.className = 'fv__status-num';
+  num.textContent = match[2];
+  el.replaceChildren(match[1], num, match[3]);
+}
+
+/* ============================================
+   タブ（共通）
+   role="tab" のボタンの aria-controls が指すパネルを切り替える。
+   ←/→ キーでタブ間を移動できる
+   ============================================ */
+function setupTablist(tablist, onChange) {
+  const tabs = Array.from(tablist.querySelectorAll(':scope > [role="tab"]'));
+  if (tabs.length === 0) return null;
+
+  const select = (tab, { focus = false } = {}) => {
+    tabs.forEach((t) => {
+      const selected = t === tab;
+      t.setAttribute('aria-selected', String(selected));
+      t.tabIndex = selected ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !selected;
+    });
+    if (focus) tab.focus();
+    if (onChange) onChange(tab);
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', (event) => {
+      const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+      if (!step) return;
+      event.preventDefault();
+      select(tabs[(i + step + tabs.length) % tabs.length], { focus: true });
+    });
+  });
+
+  return { tabs, select };
+}
+
 /**
- * ブログ目次（TOC）の自動生成 + アクティブハイライト
- * .blog-section の h2 を読み取って、#blogToc 内の <ul> に目次リンクを生成する
- * スクロールに合わせて現在のセクションをハイライトする
+ * スケジュール：日にちタブ
+ * ・合宿期間中は当日のタブを自動で開く
+ * ・表の下の注釈は data-note-days に列挙した日のタブでのみ表示
  */
+function initScheduleTabs() {
+  const tablist = document.querySelector('[data-schedule-tabs]');
+  if (!tablist) return;
+
+  const tablistApi = setupTablist(tablist, (tab) => updateScheduleNote(tab.dataset.tab));
+  if (!tablistApi) return;
+
+  const days = window.SCHEDULE_DAYS || [];
+  const todayIndex = Math.round((new Date().setHours(0, 0, 0, 0) - CAMP_START) / 86400000);
+  const defaultIndex = Math.max(0, days.findIndex((day) => day.active));
+  const index = todayIndex >= 0 && todayIndex < tablistApi.tabs.length ? todayIndex : defaultIndex;
+  tablistApi.select(tablistApi.tabs[index] || tablistApi.tabs[0]);
+}
+
+function updateScheduleNote(activeTabId) {
+  document.querySelectorAll('[data-schedule-note]').forEach((note) => {
+    const days = (note.getAttribute('data-note-days') || '').split(/\s+/).filter(Boolean);
+    note.hidden = !activeTabId || (days.length > 0 && !days.includes(activeTabId));
+  });
+}
+
+/* フロアマップ：施設タブ（プラムイン / アイリスイン）＋ 各施設の階タブ */
+function initFacilityTabs() {
+  const facilityTabs = document.querySelector('[data-facility-tabs]');
+  if (facilityTabs) setupTablist(facilityTabs);
+  document.querySelectorAll('[data-floor-tabs]').forEach((tablist) => setupTablist(tablist));
+}
+
+/* アクセス：お車 / 電車・バス / 京都駅から */
+function initAccessTabs() {
+  const tablist = document.querySelector('[data-access-tabs]');
+  if (tablist) setupTablist(tablist);
+}
+
+/* ============================================
+   画像の拡大表示（フロアマップ・集合場所の写真）
+   a.zoomable をクリックすると、別タブではなくページ内のモーダルで拡大表示する。
+   Esc・背景・×ボタンで閉じる（JS が動かない環境ではリンク先の画像が開く）
+   ============================================ */
+function initImageZoom() {
+  const links = document.querySelectorAll('a.zoomable');
+  if (links.length === 0) return;
+
+  const dialog = document.createElement('dialog');
+  dialog.className = 'zoom-modal';
+  dialog.setAttribute('aria-label', '画像の拡大表示');
+  dialog.innerHTML = '<figure class="zoom-modal__panel"><img class="zoom-modal__img" alt=""><figcaption class="zoom-modal__caption"></figcaption></figure><button type="button" class="zoom-modal__close" aria-label="閉じる">×</button>';
+  document.body.appendChild(dialog);
+
+  const img = dialog.querySelector('.zoom-modal__img');
+  const caption = dialog.querySelector('.zoom-modal__caption');
+
+  links.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const source = link.querySelector('img');
+      img.src = link.href;
+      img.alt = source ? source.alt : '';
+      caption.textContent = img.alt;
+      dialog.showModal();
+      document.body.classList.add('is-menu-open');
+    });
+  });
+
+  dialog.querySelector('.zoom-modal__close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', () => document.body.classList.remove('is-menu-open'));
+}
+
+/* ============================================
+   持ち物チェックリスト
+   localStorage でチェック状態を保存・復元（キーは data-item の値。以前のページと共通）
+   ============================================ */
+function initChecklistFeature() {
+  const box = document.querySelector('[data-checklist]');
+  const items = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+  if (items.length === 0) return;
+
+  const storage = {
+    get(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    },
+    set(key, value) {
+      try { localStorage.setItem(key, value); } catch (e) { /* 保存できない環境では何もしない */ }
+    },
+    remove(key) {
+      try { localStorage.removeItem(key); } catch (e) { /* 同上 */ }
+    },
+  };
+
+  const isAllChecked = () => Array.from(items).every((item) => item.checked);
+
+  const updateProgress = () => {
+    if (!box) return;
+    const total = items.length;
+    const checked = Array.from(items).filter((item) => item.checked).length;
+    const text = box.querySelector('[data-progress-text]');
+    const bar = box.querySelector('[data-progress-bar]');
+    const fill = box.querySelector('[data-progress-fill]');
+    const done = box.querySelector('[data-progress-done]');
+    if (text) text.textContent = `${checked} / ${total}`;
+    if (bar) {
+      bar.setAttribute('aria-valuemax', String(total));
+      bar.setAttribute('aria-valuenow', String(checked));
+    }
+    if (fill) fill.style.setProperty('--progress', String(checked / total));
+    if (done) done.hidden = checked !== total;
+    box.classList.toggle('is-complete', checked === total);
+  };
+
+  items.forEach((item) => {
+    const key = item.getAttribute('data-item');
+    if (storage.get(key) === 'true') {
+      item.checked = true;
+      item.parentElement.classList.add('checked');
+    }
+
+    item.addEventListener('change', () => {
+      storage.set(key, item.checked);
+      item.parentElement.classList.toggle('checked', item.checked);
+      updateProgress();
+      // 最後の1つにチェックを入れて「全部そろった」瞬間だけお祝いする（ページ読み込み時の復元では出さない）
+      if (item.checked && isAllChecked()) launchConfetti();
+    });
+  });
+
+  const reset = document.querySelector('[data-checklist-reset]');
+  if (reset) {
+    reset.addEventListener('click', () => {
+      resetChecklist();
+      updateProgress();
+    });
+  }
+
+  updateProgress();
+}
+
+/**
+ * クラッカー風の演出：画面中央から紙吹雪が「パーン」と弾けて、重力で落ちながら消える。
+ * ライブラリは使わず canvas で描く。動きを減らす設定（prefers-reduced-motion）の環境では出さない。
+ */
+function launchConfetti() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.className = 'confetti';
+  canvas.setAttribute('aria-hidden', 'true');
+  // CSS が古いキャッシュのままでも必ず画面全体に重なるよう、位置はここで直接指定する
+  Object.assign(canvas.style, {
+    position: 'fixed', inset: '0', zIndex: '90', width: '100%', height: '100%', pointerEvents: 'none',
+  });
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  ctx.scale(dpr, dpr);
+
+  const COLORS = ['#f0b844', '#ffe589', '#015eb9', '#409ad6', '#ffffff', '#f0861c', '#e8505b', '#5cc46b'];
+  const DURATION = 2600;
+  const scale = Math.min(1, Math.max(0.6, width / 1200)); // SP では少し控えめに飛ばす
+  const pieces = Array.from({ length: 160 }, () => {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = (8 + Math.random() * 14) * scale;
+    return {
+      x: width / 2,
+      y: height / 2,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 6 * scale, // 少し上向きに弾ける
+      w: 6 + Math.random() * 6,
+      h: 8 + Math.random() * 8,
+      rotation: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 0.3,
+      flip: Math.random() * Math.PI,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    };
+  });
+
+  const start = performance.now();
+  const frame = (now) => {
+    const elapsed = now - start;
+    ctx.clearRect(0, 0, width, height);
+    ctx.globalAlpha = Math.min(1, (DURATION - elapsed) / 600); // 最後の 0.6 秒でフェードアウト
+
+    pieces.forEach((p) => {
+      p.vx *= 0.985;
+      p.vy = p.vy * 0.985 + 0.32; // 空気抵抗＋重力
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotation += p.spin;
+      p.flip += 0.12;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.scale(1, Math.cos(p.flip)); // ひらひら回転して見えるように縦につぶす
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+
+    if (elapsed < DURATION) {
+      requestAnimationFrame(frame);
+    } else {
+      canvas.remove();
+    }
+  };
+  requestAnimationFrame(frame);
+}
+
+/**
+ * チェックリストをリセット
+ * 必要に応じてコンソールから実行: resetChecklist()
+ */
+function resetChecklist() {
+  document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach((item) => {
+    try { localStorage.removeItem(item.getAttribute('data-item')); } catch (e) { /* 何もしない */ }
+    item.checked = false;
+    item.parentElement.classList.remove('checked');
+  });
+}
+
+/* ============================================
+   ブログボタンの公開日ゲート
+   data-available-from で指定した日時より前はリンクを無効化し「準備中」を表示する
+   ============================================ */
+function initBlogButtonGate() {
+  const buttons = document.querySelectorAll('a[data-available-from]');
+  if (buttons.length === 0) return;
+
+  const now = new Date();
+  buttons.forEach((btn) => {
+    const availableFrom = new Date(btn.getAttribute('data-available-from'));
+    if (isNaN(availableFrom.getTime()) || now >= availableFrom) return;
+
+    btn.classList.add('is-locked');
+    btn.setAttribute('aria-disabled', 'true');
+    const state = btn.querySelector('[data-blog-state]');
+    if (state) state.textContent = '準備中';
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      showToast('準備中です。しばらくお待ちください');
+    });
+  });
+}
+
+let toastTimer = null;
+function showToast(message) {
+  let toast = document.querySelector('[data-toast]');
+  if (!toast) {
+    toast = document.createElement('p');
+    toast.className = 'toast';
+    toast.setAttribute('data-toast', '');
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.hidden = true;
+  }, 2400);
+}
+
+/* ============================================
+   ブログ目次（TOC）の自動生成 + 現在位置のハイライト
+   .blog-section の h2 を読み取って #blogToc の <ul> に目次リンクを生成する
+   ============================================ */
 function initBlogToc() {
   const toc = document.getElementById('blogToc');
   if (!toc) return;
@@ -337,15 +650,11 @@ function initBlogToc() {
   const sections = document.querySelectorAll('.blog-content .blog-section');
   if (!tocList || sections.length === 0) return;
 
-  // 目次リンクを生成（各セクションにIDを自動付与）
   const links = [];
   sections.forEach((section, index) => {
     const h2 = section.querySelector('h2');
     if (!h2) return;
-
-    if (!section.id) {
-      section.id = 'section-' + (index + 1);
-    }
+    if (!section.id) section.id = 'section-' + (index + 1);
 
     const li = document.createElement('li');
     const a = document.createElement('a');
@@ -353,14 +662,12 @@ function initBlogToc() {
     a.textContent = h2.textContent.trim();
     li.appendChild(a);
     tocList.appendChild(li);
-    links.push({ a: a, section: section });
+    links.push({ a, section });
   });
-
   if (links.length === 0) return;
 
-  // スクロールに応じてアクティブな目次項目をハイライト
   const setActive = () => {
-    const scrollY = window.scrollY + 120; // ヘッダ分のオフセット
+    const scrollY = window.scrollY + 120; // ヘッダー分のオフセット
     let activeIndex = 0;
     for (let i = 0; i < links.length; i++) {
       if (links[i].section.offsetTop <= scrollY) {
@@ -369,95 +676,79 @@ function initBlogToc() {
         break;
       }
     }
-    links.forEach((link, i) => {
-      if (i === activeIndex) {
-        link.a.classList.add('active');
-      } else {
-        link.a.classList.remove('active');
-      }
-    });
+    links.forEach((link, i) => link.a.classList.toggle('active', i === activeIndex));
   };
 
   setActive();
   window.addEventListener('scroll', setActive, { passive: true });
   window.addEventListener('resize', setActive);
 
-  // ----- SP用：フローティング目次ボタン + モーダル -----
   initBlogTocMobile(links);
 }
 
-/**
- * SP用：右下フローティング「目次」ボタンと、押すと開くモーダルを生成
- * モーダル内の項目をタップするとそのセクションへスクロールしてモーダルを閉じる
- */
+/* SP用：右下の「目次」ボタンと、押すと開く目次モーダル */
 function initBlogTocMobile(links) {
   if (document.getElementById('blogTocFab')) return;
 
-  // フローティングボタン
   const fab = document.createElement('button');
+  fab.type = 'button';
   fab.id = 'blogTocFab';
   fab.className = 'blog-toc-fab';
   fab.setAttribute('aria-label', '目次を開く');
-  fab.innerHTML = '<span>目次</span><span class="blog-toc-fab-icon" aria-hidden="true"><span></span><span></span></span>';
+  fab.innerHTML = '<span>目次</span>';
   document.body.appendChild(fab);
 
-  // モーダル
   const modal = document.createElement('div');
   modal.id = 'blogTocModal';
   modal.className = 'blog-toc-modal';
   modal.setAttribute('role', 'dialog');
   modal.setAttribute('aria-modal', 'true');
   modal.setAttribute('aria-label', '目次');
-  modal.innerHTML = '<div class="blog-toc-modal-panel"><ul></ul></div><button class="blog-toc-modal-close" aria-label="閉じる">×</button>';
+  modal.innerHTML = '<div class="blog-toc-modal__panel pixel-card"><p class="blog-toc-modal__title">目次</p><ul></ul></div><button type="button" class="blog-toc-modal__close" aria-label="閉じる">×</button>';
   document.body.appendChild(modal);
 
-  // モーダル内に目次項目を生成
+  const closeModal = () => {
+    modal.classList.remove('open');
+    document.body.classList.remove('is-menu-open');
+  };
+  const openModal = () => {
+    modal.classList.add('open');
+    document.body.classList.add('is-menu-open');
+  };
+
   const modalList = modal.querySelector('ul');
   links.forEach((link) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = link.a.getAttribute('href');
     a.textContent = link.a.textContent;
-    a.addEventListener('click', () => {
-      closeModal();
-    });
+    a.addEventListener('click', closeModal);
     li.appendChild(a);
     modalList.appendChild(li);
   });
 
-  const openModal = () => {
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  };
-  const closeModal = () => {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  };
-
   fab.addEventListener('click', openModal);
-  modal.querySelector('.blog-toc-modal-close').addEventListener('click', closeModal);
+  modal.querySelector('.blog-toc-modal__close').addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('open')) {
-      closeModal();
-    }
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 }
 
-/**
- * ブログ画像ギャラリー（SP用スライド）
- * 2枚以上の .blog-images を横スワイプ＋左右ボタン＋ドット＋自動再生にする
- * PCではトラックを display:contents にし、従来どおりグリッド表示
- */
+/* ============================================
+   ブログ画像ギャラリー（SP用スライド）
+   2枚以上の .blog-images を横スワイプ＋左右ボタン＋ドット＋自動再生にする
+   PCではトラックを display:contents にし、グリッド表示
+   ============================================ */
 function initBlogImageSliders() {
   const AUTO_SLIDE_MS = 4500;
   const galleries = document.querySelectorAll('.blog-images');
   if (galleries.length === 0) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isSpView = () => window.matchMedia('(max-width: 768px)').matches;
+  const isSpView = () => window.matchMedia('(max-width: 767px)').matches;
 
   galleries.forEach((gallery) => {
     if (gallery.dataset.sliderInit === '1') return;
@@ -473,24 +764,20 @@ function initBlogImageSliders() {
     images.forEach((image) => track.appendChild(image));
     gallery.appendChild(track);
 
-    const prevBtn = document.createElement('button');
-    prevBtn.type = 'button';
-    prevBtn.className = 'blog-images-nav blog-images-nav--prev';
-    prevBtn.setAttribute('aria-label', '前の写真');
-    prevBtn.innerHTML = '<span aria-hidden="true">‹</span>';
-
-    const nextBtn = document.createElement('button');
-    nextBtn.type = 'button';
-    nextBtn.className = 'blog-images-nav blog-images-nav--next';
-    nextBtn.setAttribute('aria-label', '次の写真');
-    nextBtn.innerHTML = '<span aria-hidden="true">›</span>';
-
-    gallery.appendChild(prevBtn);
-    gallery.appendChild(nextBtn);
+    const makeNav = (dir, label, char) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'blog-images-nav blog-images-nav--' + dir;
+      button.setAttribute('aria-label', label);
+      button.innerHTML = '<span aria-hidden="true">' + char + '</span>';
+      gallery.appendChild(button);
+      return button;
+    };
+    const prevBtn = makeNav('prev', '前の写真', '◀');
+    const nextBtn = makeNav('next', '次の写真', '▶');
 
     const dots = document.createElement('div');
     dots.className = 'blog-images-dots';
-    dots.setAttribute('role', 'tablist');
     dots.setAttribute('aria-label', '写真スライド');
 
     const getIndex = () => {
@@ -500,10 +787,22 @@ function initBlogImageSliders() {
 
     const goTo = (index, behavior = 'smooth') => {
       const clamped = ((index % images.length) + images.length) % images.length;
-      track.scrollTo({
-        left: clamped * track.clientWidth,
-        behavior: behavior,
-      });
+      track.scrollTo({ left: clamped * track.clientWidth, behavior });
+    };
+
+    let autoplayTimer = null;
+    const stopAutoplay = () => {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    };
+    const startAutoplay = () => {
+      if (prefersReducedMotion || !isSpView()) return;
+      stopAutoplay();
+      autoplayTimer = setInterval(() => goTo(getIndex() + 1), AUTO_SLIDE_MS);
+    };
+    const restartAutoplay = () => {
+      stopAutoplay();
+      startAutoplay();
     };
 
     const dotButtons = images.map((_, index) => {
@@ -519,13 +818,12 @@ function initBlogImageSliders() {
       dots.appendChild(button);
       return button;
     });
-
     gallery.appendChild(dots);
 
     const updateActiveDot = () => {
-      const clamped = getIndex();
+      const current = getIndex();
       dotButtons.forEach((button, index) => {
-        if (index === clamped) {
+        if (index === current) {
           button.setAttribute('aria-current', 'true');
         } else {
           button.removeAttribute('aria-current');
@@ -543,36 +841,12 @@ function initBlogImageSliders() {
     });
 
     track.addEventListener('scroll', updateActiveDot, { passive: true });
-    window.addEventListener('resize', updateActiveDot);
-
-    let autoplayTimer = null;
-    const stopAutoplay = () => {
-      if (autoplayTimer) {
-        clearInterval(autoplayTimer);
-        autoplayTimer = null;
-      }
-    };
-    const startAutoplay = () => {
-      if (prefersReducedMotion || !isSpView()) return;
-      stopAutoplay();
-      autoplayTimer = setInterval(() => {
-        goTo(getIndex() + 1);
-      }, AUTO_SLIDE_MS);
-    };
-    const restartAutoplay = () => {
-      stopAutoplay();
-      startAutoplay();
-    };
-
-    // 操作中は一時停止、離れたら再開
     gallery.addEventListener('pointerenter', stopAutoplay);
     gallery.addEventListener('pointerleave', startAutoplay);
     track.addEventListener('touchstart', stopAutoplay, { passive: true });
-    track.addEventListener('touchend', () => {
-      restartAutoplay();
-    }, { passive: true });
-
+    track.addEventListener('touchend', restartAutoplay, { passive: true });
     window.addEventListener('resize', () => {
+      updateActiveDot();
       if (isSpView()) {
         startAutoplay();
       } else {
@@ -584,850 +858,40 @@ function initBlogImageSliders() {
   });
 }
 
-/**
- * 持ち物チェックリスト機能
- * localStorageでチェック状態を保存・復元
- */
-function initChecklistFeature() {
-  const checklistItems = document.querySelectorAll('.checklist-item input[type="checkbox"]');
-  
-  if (checklistItems.length === 0) {
-    // チェックリストが存在しない場合は処理をスキップ
-    return;
-  }
-  
-  // ページ読み込み時に保存された状態を復元
-  checklistItems.forEach(item => {
-    const itemKey = item.getAttribute('data-item');
-    const savedState = localStorage.getItem(itemKey);
-    
-    if (savedState === 'true') {
-      item.checked = true;
-      item.parentElement.classList.add('checked');
-    }
-  });
-  
-  // チェック状態の変更を監視
-  checklistItems.forEach(item => {
-    item.addEventListener('change', function() {
-      const itemKey = this.getAttribute('data-item');
-      localStorage.setItem(itemKey, this.checked);
-      
-      if (this.checked) {
-        this.parentElement.classList.add('checked');
-      } else {
-        this.parentElement.classList.remove('checked');
-      }
-    });
-  });
-}
+/* ============================================
+   スクロール時のフェードイン（控えめに、カード単位で）
+   ============================================ */
+function initFadeIn() {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-/**
- * スムーススクロール機能
- * ページ内リンクをクリックした際に滑らかにスクロール
- */
-function initSmoothScroll() {
-  const anchorLinks = document.querySelectorAll('a[href^="#"]');
-  
-  anchorLinks.forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      
-      // '#' のみ、または空の場合はスキップ
-      if (href === '#' || href === '') {
-        return;
-      }
-      
-      e.preventDefault();
-      const target = document.querySelector(href);
-      
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-        
-        // URLを更新（履歴に追加）
-        if (history.pushState) {
-          history.pushState(null, null, href);
-        }
-      }
-    });
-  });
-}
-
-/**
- * ハンバーガーメニュー機能（SP用）
- * サイドバーの開閉を制御
- */
-function initHamburgerMenu() {
-  const hamburger = document.getElementById('hamburger');
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-  
-  if (!hamburger || !sidebar || !overlay) {
-    // 要素が存在しない場合は処理をスキップ
-    return;
-  }
-  
-  // ハンバーガーボタンクリック
-  hamburger.addEventListener('click', function() {
-    toggleMenu();
-  });
-  
-  // オーバーレイクリック
-  overlay.addEventListener('click', function() {
-    closeMenu();
-  });
-  
-  // サイドバーのリンククリック時にメニューを閉じる
-  sidebarLinks.forEach(link => {
-    link.addEventListener('click', function() {
-      // SP表示の場合のみメニューを閉じる
-      if (window.innerWidth <= 768) {
-        // ブログメニュー（サブメニューを持つ親リンク）の場合は閉じない
-        if (this.parentElement.classList.contains('has-submenu')) {
-          return;
-        }
-        closeMenu();
-      }
-    });
-  });
-  
-  // メニュー開閉の切り替え
-  function toggleMenu() {
-    hamburger.classList.toggle('active');
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-    
-    // body のスクロールを制御
-    if (sidebar.classList.contains('active')) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }
-  
-  // メニューを閉じる
-  function closeMenu() {
-    hamburger.classList.remove('active');
-    sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-}
-
-/**
- * プログラムカードのトグル機能（SP版のみ）
- * カードヘッダーをタップして内容の表示/非表示を切り替え
- */
-function initProgramCardToggle() {
-  const programCards = document.querySelectorAll('[data-program-card]');
-  
-  if (programCards.length === 0) {
-    // プログラムカードが存在しない場合は処理をスキップ
-    return;
-  }
-  
-  programCards.forEach(card => {
-    const cardHeader = card.querySelector('.card-header');
-    
-    if (!cardHeader) {
-      return;
-    }
-    
-    // カードヘッダーをクリックした時の処理
-    cardHeader.addEventListener('click', function() {
-      // SP版（768px以下）の場合のみトグル機能を有効化
-      if (window.innerWidth <= 768) {
-        card.classList.toggle('active');
-      }
-    });
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、全てのカードを開いた状態にする
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      programCards.forEach(card => {
-        card.classList.remove('active');
+  const targets = document.querySelectorAll('.section-head, .pixel-card:not(.site-menu__panel):not(.blog-toc-modal__panel), .chapter-list, .blog-notice');
+  const observer = new IntersectionObserver(
+    (records) => {
+      records.forEach((record) => {
+        if (!record.isIntersecting) return;
+        record.target.classList.add('is-visible');
+        observer.unobserve(record.target);
       });
-    }
+    },
+    { rootMargin: '0px 0px -8% 0px' }
+  );
+
+  targets.forEach((target) => {
+    // 最初から画面内にあるものはそのまま表示（読み込み直後のちらつき防止）
+    if (target.getBoundingClientRect().top < window.innerHeight) return;
+    target.classList.add('fade-in');
+    observer.observe(target);
   });
 }
 
-/**
- * スケジュールのトグル機能（SP版のみ）
- * SP版でもPC版と同じデザインを保持
- */
-function initScheduleToggle() {
-  // SP版では特別な処理は不要（CSSで制御）
-  return;
-}
-
-/**
- * アクセス方法のトグル機能（SP版のみ）
- * 各項目をタップして詳細の表示/非表示を切り替え
- */
-function initAccessToggle() {
-  const accessItems = document.querySelectorAll('[data-access-item]');
-  
-  if (accessItems.length === 0) {
-    // アクセス項目が存在しない場合は処理をスキップ
-    return;
-  }
-  
-  accessItems.forEach(item => {
-    const header = item.querySelector('.access-item-header');
-    
-    if (!header) {
-      return;
-    }
-    
-    // ヘッダーをクリックした時の処理
-    header.addEventListener('click', function() {
-      // SP版（768px以下）の場合のみトグル機能を有効化
-      if (window.innerWidth <= 768) {
-        item.classList.toggle('active');
-      }
-    });
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、全ての項目を閉じる
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      accessItems.forEach(item => {
-        item.classList.remove('active');
-      });
-    }
-  });
-}
-
-/**
- * 持ち物リストのトグル機能（SP版のみ）
- * ヘッダーをタップして詳細の表示/非表示を切り替え
- */
-function initItemsToggle() {
-  const itemsMobile = document.querySelector('[data-items-mobile]');
-  
-  if (!itemsMobile) {
-    // 持ち物リストのモバイル版が存在しない場合は処理をスキップ
-    return;
-  }
-  
-  const header = itemsMobile.querySelector('.items-mobile-header');
-  
-  if (!header) {
-    return;
-  }
-  
-  // ヘッダーをクリックした時の処理
-  header.addEventListener('click', function() {
-    // SP版（768px以下）の場合のみトグル機能を有効化
-    if (window.innerWidth <= 768) {
-      itemsMobile.classList.toggle('active');
-    }
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、閉じる
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      itemsMobile.classList.remove('active');
-    }
-  });
-}
-
-/**
- * ブログメニューのサブメニュートグル機能（SP版のみ）
- * ブログメニューをタップしてサブメニューの表示/非表示を切り替え
- */
-function initBlogSubmenuToggle() {
-  const blogMenuItem = document.querySelector('.sidebar-nav .has-submenu');
-  
-  if (!blogMenuItem) {
-    // ブログメニューが存在しない場合は処理をスキップ
-    return;
-  }
-  
-  const blogLink = blogMenuItem.querySelector('a');
-  
-  if (!blogLink) {
-    return;
-  }
-  
-  // ブログメニューリンクをクリックした時の処理
-  blogLink.addEventListener('click', function(e) {
-    // SP版（768px以下）の場合のみトグル機能を有効化
-    if (window.innerWidth <= 768) {
-      e.preventDefault();
-      blogMenuItem.classList.toggle('active');
-      
-      // サブメニューが開いた場合、スクロールして画面内に表示
-      if (blogMenuItem.classList.contains('active')) {
-        // アニメーション完了後にスクロール
-        setTimeout(() => {
-          const submenu = blogMenuItem.querySelector('.submenu');
-          
-          if (submenu) {
-            // サブメニューの最後の項目（3日目）を取得
-            const lastItem = submenu.querySelector('li:last-child');
-            
-            if (lastItem) {
-              // 最後の項目を画面内に表示
-              lastItem.scrollIntoView({
-                behavior: 'smooth',
-                block: 'end',
-                inline: 'nearest'
-              });
-            }
-          }
-        }, 150);
-      }
-    }
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、閉じる
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      blogMenuItem.classList.remove('active');
-    }
-  });
-}
-
-/**
- * フロアマップのトグル機能
- * SP版でフロアマップをアコーディオン形式で開閉
- */
-function initFloormapToggle() {
-  const floormapItems = document.querySelectorAll('[data-floormap-item]');
-  
-  if (floormapItems.length === 0) {
-    return;
-  }
-  
-  floormapItems.forEach(item => {
-    const header = item.querySelector('[data-floormap-header]');
-    
-    if (!header) return;
-    
-    header.addEventListener('click', function() {
-      // SP版でのみ動作（768px以下）
-      if (window.innerWidth <= 768) {
-        // クリックされたアイテムの開閉を切り替え
-        item.classList.toggle('active');
-      }
-    });
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、全て開く
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      floormapItems.forEach(item => {
-        item.classList.remove('active');
-      });
-    }
-  });
-}
-
-/**
- * フロアマップのタブ機能（PC版）
- * タブをクリックして各階を切り替え（アクセスと同じ形式）
- */
-function initFloormapTabs() {
-  // 施設ごとに floormap タブをスコープして処理する。
-  // 各 .floormap-tabs の直下の親（.facility-content）内のフロアだけを操作する。
-  const tabContainers = document.querySelectorAll('.floormap-tabs');
-  if (tabContainers.length === 0) return;
-
-  const setupContainer = (tabContainer) => {
-    const scope = tabContainer.closest('.facility-content') || tabContainer.parentElement;
-    const tabButtons = tabContainer.querySelectorAll('.floormap-tab-btn');
-    const items = scope.querySelectorAll('[data-floor-content]');
-    if (tabButtons.length === 0 || items.length === 0) return;
-
-    // PC版：1番目のフロアがアクティブな状態を担保（HTML 側でも明示済み）
-    if (window.innerWidth > 768) {
-      const hasActive = Array.from(items).some(i => i.classList.contains('active'));
-      if (!hasActive) {
-        items[0].classList.add('active');
-        if (tabButtons[0]) tabButtons[0].classList.add('active');
-      }
-    }
-
-    tabButtons.forEach((button) => {
-      button.addEventListener('click', function () {
-        if (window.innerWidth > 768) {
-          const floorId = this.getAttribute('data-floor');
-          const targetContent = scope.querySelector(`[data-floor-content="${floorId}"]`);
-
-          // 同じ施設スコープ内だけ active を解除
-          tabButtons.forEach(btn => btn.classList.remove('active'));
-          items.forEach(item => item.classList.remove('active'));
-
-          this.classList.add('active');
-          if (targetContent) targetContent.classList.add('active');
-        }
-      });
-    });
+/* ページ先頭へ戻るボタン */
+function initToTop() {
+  const button = document.querySelector('[data-to-top]');
+  if (!button) return;
+  const update = () => {
+    button.hidden = window.scrollY < window.innerHeight;
   };
-
-  tabContainers.forEach(setupContainer);
-
-  // リサイズ：SPに戻ったら全 active 解除、PCに戻ったら各施設の先頭フロアを表示
-  window.addEventListener('resize', function () {
-    if (window.innerWidth <= 768) {
-      document.querySelectorAll('.floormap-tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('[data-floor-content]').forEach(item => item.classList.remove('active'));
-    } else {
-      tabContainers.forEach((tabContainer) => {
-        const scope = tabContainer.closest('.facility-content') || tabContainer.parentElement;
-        const items = scope.querySelectorAll('[data-floor-content]');
-        const tabButtons = tabContainer.querySelectorAll('.floormap-tab-btn');
-        const hasActive = Array.from(items).some(i => i.classList.contains('active'));
-        if (!hasActive && items.length > 0) {
-          items[0].classList.add('active');
-          if (tabButtons[0]) tabButtons[0].classList.add('active');
-        }
-      });
-    }
-  });
+  update();
+  window.addEventListener('scroll', update, { passive: true });
 }
-
-/**
- * 施設タブ（プラムイン / アイリスイン）の切り替え
- * クリックでパネル表示を切り替え、aria-selected も更新
- */
-function initFacilityTabs() {
-  const tabButtons = document.querySelectorAll('.facility-tab-btn');
-  const panels = document.querySelectorAll('[data-facility-content]');
-  if (tabButtons.length === 0 || panels.length === 0) return;
-
-  tabButtons.forEach((btn) => {
-    btn.addEventListener('click', function () {
-      const facility = this.getAttribute('data-facility');
-
-      tabButtons.forEach((b) => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      panels.forEach((p) => p.classList.remove('active'));
-
-      this.classList.add('active');
-      this.setAttribute('aria-selected', 'true');
-      const target = document.querySelector(`[data-facility-content="${facility}"]`);
-      if (target) target.classList.add('active');
-    });
-  });
-}
-
-/**
- * スクロールスパイ機能
- * ページをスクロールした際に、現在表示されているセクションに対応するメニューをハイライト
- */
-function initScrollSpy() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
-  
-  if (sections.length === 0 || navLinks.length === 0) {
-    return;
-  }
-  
-  // 各セクションのIDとメニューリンクのマップを作成
-  const linkMap = new Map();
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (href && href !== '#') {
-      linkMap.set(href.substring(1), link);
-    }
-  });
-  
-  // Intersection Observer のオプション
-  const observerOptions = {
-    root: null,
-    rootMargin: '-20% 0px -70% 0px', // 上部20%、下部70%の範囲でトリガー
-    threshold: 0
-  };
-  
-  // 現在アクティブなセクションを追跡
-  let currentActiveSection = null;
-  
-  // Intersection Observer のコールバック
-  const observerCallback = (entries) => {
-    entries.forEach(entry => {
-      const sectionId = entry.target.id;
-      const link = linkMap.get(sectionId);
-      
-      if (!link) return;
-      
-      if (entry.isIntersecting) {
-        // セクションが表示されている場合
-        // 既存のアクティブ状態をクリア
-        navLinks.forEach(navLink => navLink.classList.remove('active'));
-        
-        // 現在のセクションのリンクをアクティブに
-        link.classList.add('active');
-        currentActiveSection = sectionId;
-      }
-    });
-  };
-  
-  // Intersection Observer を作成
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-  
-  // 各セクションを監視
-  sections.forEach(section => {
-    observer.observe(section);
-  });
-  
-  // メニューをクリックした時にもアクティブ状態を更新
-  navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-      const href = this.getAttribute('href');
-      if (href && href !== '#') {
-        // 全てのアクティブ状態をクリア
-        navLinks.forEach(navLink => navLink.classList.remove('active'));
-        // クリックされたリンクをアクティブに
-        this.classList.add('active');
-      }
-    });
-  });
-  
-  // ページ読み込み時に初期状態を設定
-  setTimeout(() => {
-    const scrollPosition = window.scrollY;
-    let foundActive = false;
-    
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      
-      if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionTop + sectionHeight - 100) {
-        const link = linkMap.get(section.id);
-        if (link) {
-          navLinks.forEach(navLink => navLink.classList.remove('active'));
-          link.classList.add('active');
-          foundActive = true;
-        }
-      }
-    });
-    
-    // どのセクションにも該当しない場合は、最初のリンク（トップ）をアクティブに
-    if (!foundActive && navLinks.length > 0) {
-      navLinks[0].classList.add('active');
-    }
-  }, 100);
-}
-
-/**
- * スケジュールタブの切り替え機能
- */
-function initScheduleTabs() {
-  const tabButtons = document.querySelectorAll('.schedule-tabs .tab-btn');
-  
-  if (tabButtons.length === 0) return;
-  
-  tabButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const targetTab = this.getAttribute('data-tab');
-      const targetContent = document.getElementById(targetTab);
-      const tabContents = document.querySelectorAll('.schedule-row.tab-content');
-      
-      // 同じタブを押した場合は閉じる（トグル機能）
-      if (this.classList.contains('active')) {
-        this.classList.remove('active');
-        updateScheduleTabEmoji(this, false);
-        if (targetContent) {
-          targetContent.classList.remove('active');
-        }
-        document.querySelectorAll('.schedule-mobile').forEach((block) => {
-          block.classList.remove('active');
-        });
-        updateScheduleNote(null);
-      } else {
-        // すべてのタブボタンの絵文字を📅に戻す
-        tabButtons.forEach(btn => {
-          btn.classList.remove('active');
-          updateScheduleTabEmoji(btn, false);
-        });
-        tabContents.forEach(content => content.classList.remove('active'));
-        
-        // クリックされたタブボタンとそのコンテンツにactiveクラスを追加
-        this.classList.add('active');
-        updateScheduleTabEmoji(this, true);
-        if (targetContent) {
-          targetContent.classList.add('active');
-        }
-
-        // SPカード表示も同期
-        document.querySelectorAll('.schedule-mobile').forEach((block) => {
-          if (targetContent && block.getAttribute('data-day') === targetContent.id) {
-            block.classList.add('active');
-          } else {
-            block.classList.remove('active');
-          }
-        });
-
-        updateScheduleNote(targetTab);
-      }
-    });
-  });
-
-  // 初期表示（デフォルトでactiveなタブ）に合わせて注釈の表示を同期
-  const initialTab = document.querySelector('.schedule-tabs .tab-btn.active');
-  updateScheduleNote(initialTab ? initialTab.getAttribute('data-tab') : null);
-}
-
-/**
- * スケジュール表下の注釈の表示/非表示を切り替える
- * data-note-days に列挙した日のタブが開いているときだけ表示する
- * @param {string|null} activeTabId - 現在開いているタブのID（未選択時はnull）
- */
-function updateScheduleNote(activeTabId) {
-  document.querySelectorAll('[data-schedule-note]').forEach((note) => {
-    const days = (note.getAttribute('data-note-days') || '').split(/\s+/).filter(Boolean);
-    note.hidden = !activeTabId || (days.length > 0 && !days.includes(activeTabId));
-  });
-}
-
-/**
- * スケジュールタブボタンの絵文字を更新
- * @param {HTMLElement} button - タブボタン要素
- * @param {boolean} isActive - アクティブ状態かどうか
- */
-function updateScheduleTabEmoji(button, isActive) {
-  const emojiSpan = button.querySelector('.tab-emoji');
-  if (emojiSpan) {
-    emojiSpan.textContent = isActive ? '🍁' : '📅';
-  }
-}
-
-/**
- * アクセスタブの切り替え機能
- * お車/電車・バス/京都駅からのアクセス情報をタブで切り替え
- */
-function initAccessTabs() {
-  const tabButtons = document.querySelectorAll('.access-tab-btn');
-  const tabContents = document.querySelectorAll('.access-tab-content');
-  
-  if (tabButtons.length === 0 || tabContents.length === 0) return;
-  
-  tabButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const targetTab = this.getAttribute('data-access-tab');
-      
-      // すべてのタブボタンとコンテンツからactiveクラスを削除
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      tabContents.forEach(content => content.classList.remove('active'));
-      
-      // クリックされたタブボタンとそのコンテンツにactiveクラスを追加
-      this.classList.add('active');
-      const targetContent = document.getElementById('access-' + targetTab);
-      if (targetContent) {
-        targetContent.classList.add('active');
-      }
-    });
-  });
-}
-
-/**
- * ご案内セクションのトグル機能（SP版のみ）
- * ヘッダーをタップして詳細の表示/非表示を切り替え
- */
-function initGuideToggle() {
-  const guideWrapper = document.querySelector('[data-guide-toggle]');
-  
-  if (!guideWrapper) {
-    // ご案内セクションが存在しない場合は処理をスキップ
-    return;
-  }
-  
-  const header = guideWrapper.querySelector('.guide-toggle-header');
-  
-  if (!header) {
-    return;
-  }
-  
-  // ヘッダーをクリックした時の処理
-  header.addEventListener('click', function() {
-    // SP版（768px以下）の場合のみトグル機能を有効化
-    if (window.innerWidth <= 768) {
-      guideWrapper.classList.toggle('active');
-    }
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、開いた状態にする
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      guideWrapper.classList.remove('active');
-    }
-  });
-}
-
-/**
- * LINEアカウントセクションのトグル機能（SP版のみ）
- * ヘッダーをタップして詳細の表示/非表示を切り替え
- */
-function initLineToggle() {
-  const lineBox = document.querySelector('[data-line-toggle]');
-  
-  if (!lineBox) {
-    // LINEアカウントセクションが存在しない場合は処理をスキップ
-    return;
-  }
-  
-  const header = lineBox.querySelector('.line-toggle-header');
-  
-  if (!header) {
-    return;
-  }
-  
-  // ヘッダーをクリックした時の処理（PC版・SP版両方で有効）
-  header.addEventListener('click', function() {
-    lineBox.classList.toggle('active');
-  });
-}
-
-/**
- * ブログ更新セクションのトグル機能（SP版のみ）
- * ヘッダーをクリックしてコンテンツの表示/非表示を切り替え
- */
-function initBlogUpdateToggle() {
-  const blogUpdateBox = document.querySelector('[data-blog-update-toggle]');
-  
-  if (!blogUpdateBox) {
-    // ブログ更新セクションが存在しない場合は処理をスキップ
-    return;
-  }
-  
-  const header = blogUpdateBox.querySelector('.blog-update-header');
-  
-  if (!header) {
-    return;
-  }
-  
-  // ヘッダーをクリックした時の処理
-  header.addEventListener('click', function() {
-    // SP版（768px以下）の場合のみトグル機能を有効化
-    if (window.innerWidth <= 768) {
-      blogUpdateBox.classList.toggle('active');
-    }
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、開いた状態にする
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      blogUpdateBox.classList.remove('active');
-    }
-  });
-}
-
-/**
- * 学習プログラムのタブ機能（SP版のみ）
- * タブをクリックして各CHAPTERの表示/非表示を切り替え
- */
-function initProgramTabs() {
-  const tabButtons = document.querySelectorAll('.program-tab-btn');
-  const tabContents = document.querySelectorAll('.program-card[data-tab-content]');
-  
-  if (tabButtons.length === 0 || tabContents.length === 0) {
-    return;
-  }
-  
-  // タブボタンをクリックした時の処理
-  tabButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      // SP版（768px以下）の場合のみタブ機能を有効化
-      if (window.innerWidth <= 768) {
-        const tabNumber = this.getAttribute('data-tab');
-        const targetContent = document.querySelector(`.program-card[data-tab-content="${tabNumber}"]`);
-        
-        // 同じタブを押した場合は非表示に（トグル機能）
-        if (this.classList.contains('active')) {
-          this.classList.remove('active');
-          if (targetContent) {
-            targetContent.classList.remove('active');
-          }
-        } else {
-          // すべてのタブとコンテンツから active クラスを削除
-          tabButtons.forEach(btn => btn.classList.remove('active'));
-          tabContents.forEach(content => content.classList.remove('active'));
-          
-          // クリックされたタブと対応するコンテンツに active クラスを追加
-          this.classList.add('active');
-          if (targetContent) {
-            targetContent.classList.add('active');
-          }
-        }
-      }
-    });
-  });
-  
-  // ウィンドウリサイズ時にPC版に戻った場合は、すべてのカードを表示
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 768) {
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      tabContents.forEach(content => content.classList.remove('active'));
-    }
-  });
-}
-
-/**
- * フッターのキャラクター画像をSP版でロゴの隣に配置
- */
-function initFooterCharacters() {
-  const logoWrapper = document.querySelector('.footer-logo-wrapper');
-  const footerContent = document.querySelector('.footer-content');
-  const charLeft = document.querySelector('.footer-character-left');
-  const charRight = document.querySelector('.footer-character-right');
-  
-  if (!logoWrapper || !footerContent || !charLeft || !charRight) {
-    return;
-  }
-  
-  // 元の位置を記憶
-  const originalParent = footerContent;
-  
-  function arrangeCharacters() {
-    if (window.innerWidth <= 768) {
-      // SP版：キャラクター画像をロゴの隣に移動
-      if (charLeft.parentElement !== logoWrapper) {
-        logoWrapper.insertBefore(charLeft, logoWrapper.firstChild);
-      }
-      if (charRight.parentElement !== logoWrapper) {
-        logoWrapper.appendChild(charRight);
-      }
-    } else {
-      // PC版：キャラクター画像を元の位置に戻す
-      if (charLeft.parentElement !== originalParent) {
-        originalParent.insertBefore(charLeft, originalParent.firstChild);
-      }
-      if (charRight.parentElement !== originalParent) {
-        originalParent.appendChild(charRight);
-      }
-    }
-  }
-  
-  // 初期配置
-  arrangeCharacters();
-  
-  // ウィンドウリサイズ時に再配置
-  window.addEventListener('resize', arrangeCharacters);
-}
-
-/**
- * チェックリストをリセット（デバッグ用）
- * 必要に応じてコンソールから実行: resetChecklist()
- */
-function resetChecklist() {
-  const checklistItems = document.querySelectorAll('.checklist-item input[type="checkbox"]');
-  
-  checklistItems.forEach(item => {
-    const itemKey = item.getAttribute('data-item');
-    localStorage.removeItem(itemKey);
-    item.checked = false;
-    item.parentElement.classList.remove('checked');
-  });
-  
-  console.log('チェックリストがリセットされました');
-}
-

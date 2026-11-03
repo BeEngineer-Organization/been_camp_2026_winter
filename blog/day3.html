@@ -5,19 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="../assets/fav/favicon.svg">
   <meta name="description" content="BeEngineer合宿 3日目の様子">
-  <title>合宿ブログ - 3日目 | BeEngineer Programming Camp</title>
+  <title>合宿ブログ 3日目｜プログラミングキャンプ 2026 冬 | BeEngineer × LOGOS LAND</title>
   <!-- ============================================================
       【非公開】ブログ公開ガード（一時解除中：作成・表示確認用）
       ※ 再非公開にする場合は、下の <script> のコメントを外してください。
       ============================================================ -->
   <!-- <script>window.location.replace('../index.html');</script> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Jersey+10&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body>
+<body id="top">
   
-  <div id="site-sidebar" data-variant="public"></div>
+  <!-- 背景の雪（script.js が描画） -->
+  <canvas class="snowfall" data-snowfall aria-hidden="true"></canvas>
 
-  <main class="main-content">
+  <!-- ヘッダー・メニュー（共通コンポーネント / assets/layout.js が描画） -->
+  <div id="site-header"></div>
+
+  <main id="main">
     
     <header class="blog-hero">
       <div class="blog-hero-inner">
@@ -29,12 +36,13 @@
             <span class="sep">›</span>
             <span class="current">3日目</span>
           </nav>
+          <p class="blog-hero-day">DAY 3</p>
           <h1 class="blog-hero-title">合宿 3日目の様子</h1>
           <p class="blog-hero-subtitle">（準備中）</p>
           <div class="blog-hero-meta">
-            <span>📅 2026年12月28日（月）</span>
+            <span>2026年12月28日（月）</span>
             <span class="meta-separator">|</span>
-            <span>✍️ ライター名（未設定）</span>
+            <span>ライター名（未設定）</span>
           </div>
           <div class="blog-hero-tags">
             <span class="blog-tag">#合宿</span>
@@ -45,7 +53,7 @@
           </div>
         </div>
         <div class="blog-hero-right">
-          <div class="blog-hero-image">
+          <div class="blog-hero-image pixel-card">
             <!-- ヒーロー写真：プレースホルダーを削除し、img のコメントを外す -->
             <div class="blog-image-placeholder">写真をここに配置</div>
             <!-- <img src="images3/day3_hero.jpg" alt="3日目の様子"> -->
@@ -56,14 +64,14 @@
 
     <div class="blog-layout">
 
-      <aside class="blog-toc" id="blogToc" aria-label="目次">
+      <aside class="blog-toc pixel-card" id="blogToc" aria-label="目次">
         <div class="blog-toc-title">目次</div>
         <nav>
           <ul></ul>
         </nav>
       </aside>
 
-      <article class="blog-content">
+      <article class="blog-content pixel-card">
 
       <!-- ============================================================
            本文の書き方
@@ -184,19 +192,24 @@
 
       <div class="blog-navigation">
         <a href="../index.html" class="back-to-home">← トップページに戻る</a>
+        <nav class="blog-day-nav" aria-label="ほかの日の記事">
+          <a href="day1.html" data-available-from="2026-12-26T00:00:00">1日目</a>
+          <a href="day2.html" data-available-from="2026-12-27T00:00:00">2日目</a>
+          <a href="day3.html" aria-current="page">3日目</a>
+        </nav>
       </div>
 
       </article>
 
     </div>
 
-    <div id="site-footer"></div>
-
   </main>
 
-  <script src="../assets/sidebar.js"></script>
+  <!-- フッター（共通コンポーネント / assets/layout.js が描画） -->
+  <div id="site-footer"></div>
+
+  <script src="../assets/layout.js"></script>
   <script src="../script.js"></script>
-  <script src="../assets/footer.js"></script>
 
 </body>
 </html>

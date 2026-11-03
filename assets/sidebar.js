@@ -1,8 +1,8 @@
 /**
- * 共通サイドバーコンポーネント
+ * スタッフページ用サイドバーコンポーネント
+ * ※ 公開ページ（index / blog）は 2026冬のリデザインで assets/layout.js に移行済み。
  *
  * 使い方:
- *   <div id="site-sidebar" data-variant="public"></div>     ← 一般公開用（index / blog）
  *   <div id="site-sidebar" data-variant="staff"></div>      ← スタッフ用（schedule / tokyo-arrival / items）
  *   <div id="site-sidebar" data-variant="staff-mtg"></div>  ← スタッフMTG用（mtg-day1〜3）
  *   <script src="（assetsまでの相対パス）/sidebar.js"></script>
@@ -10,39 +10,22 @@
  * このプレースホルダは「ハンバーガーボタン / サイドバー / オーバーレイ」の
  * 3要素にまとめて差し替えられる。
  *
- * - 画像・リンクのパスはこのスクリプトの配置場所から自動解決されるので、
- *   ルート / blog/ / staff/ のどこから読み込んでも動作する。
+ * - メインページへのリンクはこのスクリプトの配置場所から自動解決される。
  * - 現在ページを location から判定し、該当リンクに .active を自動付与する。
- * - 文言・メニュー・年号を変更する場合はこのファイルを編集すれば全ページに反映される。
  *
- * 注意: script.js の initHamburgerMenu() / initSidebarCharacterBubbles() が
- * #hamburger / #sidebar / #overlay / .sidebar-footer-char-* を参照するため、
- * このスクリプトは script.js より前に読み込み、先に描画を完了させること。
+ * 注意: staff/legacy-script.js の initHamburgerMenu() が
+ * #hamburger / #sidebar / #overlay を参照するため、
+ * このスクリプトは legacy-script.js より前に読み込み、先に描画を完了させること。
  */
 (function () {
   // このスクリプト自身のURLを基に各種ベースURLを決定。
   // currentScript は defer/async/module 読み込み時に null になり得るのでフォールバック。
   const scriptEl = document.currentScript
     || document.querySelector('script[src$="/sidebar.js"]');
-  const assetsBase = scriptEl ? new URL('.', scriptEl.src).href : '';   // .../assets/
   const rootBase = scriptEl ? new URL('..', scriptEl.src).href : '';    // プロジェクトルート/
 
-  // 現在ページが index.html（ルート直下）かどうか。
-  // 例: "/", "/index.html", "/been_gassyuku2026/", "/been_gassyuku2026/index.html"
   const path = location.pathname;
-  const onIndex = /\/(index\.html)?$/.test(path);
   const currentFile = (path.split('/').pop() || 'index.html');
-
-  // --- 公開用ナビのリンク解決 ---------------------------------------------
-  // index 上では同一ページ内アンカー（スムーススクロール維持）、
-  // それ以外（blog/ staff/）からは ../index.html#xxx 形式にする。
-  const anchor = (hash) => onIndex ? `#${hash}` : `${rootBase}index.html#${hash}`;
-  const topLink = onIndex ? '#hero' : `${rootBase}index.html`;
-  // ブログサブメニュー: index 上は blog/dayN.html、blog 配下は dayN.html
-  const blogLink = (n) => onIndex ? `${rootBase}blog/day${n}.html` : `day${n}.html`;
-
-  // 合宿クイズ（別リポジトリ BeEn_Quiz でホスティング）。参加者用のパスワードが必要。
-  const quizLink = 'https://beengineer-organization.github.io/BeEn_Quiz/camp.html';
 
   // --- HTML 生成 -----------------------------------------------------------
   const hamburgerHTML = `
@@ -53,50 +36,6 @@
     </button>`;
 
   const overlayHTML = `<div class="overlay" id="overlay"></div>`;
-
-  function publicSidebar() {
-    return `
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-logo">
-        <img src="${assetsBase}fav/LOGOSLAND_logo.svg" alt="LOGOS LAND" class="logo-image">
-        <div class="logo-separator">×</div>
-        <img src="${assetsBase}fav/BeEngineer_logo.svg" alt="BeEngineer" class="logo-image logo-been">
-      </div>
-
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="${topLink}">トップ</a></li>
-          <li class="has-submenu">
-            <a href="${anchor('blog')}">ブログ</a>
-            <ul class="submenu">
-              <li><a href="${blogLink(1)}">1日目</a></li>
-              <li><a href="${blogLink(2)}">2日目</a></li>
-              <li><a href="${blogLink(3)}">3日目</a></li>
-            </ul>
-          </li>
-          <li><a href="${anchor('guide')}">ご案内</a></li>
-          <li><a href="${anchor('overview')}">日程・会場</a></li>
-          <li><a href="${anchor('teachers')}">引率講師の紹介</a></li>
-          <li><a href="${anchor('program')}">学習内容</a></li>
-          <!-- 冬合宿では非表示。再掲時はこのコメントを外す。
-          <li><a href="${quizLink}" target="_blank" rel="noopener">合宿クイズ 🔒</a></li>
-          -->
-          <li><a href="${anchor('schedule')}">スケジュール</a></li>
-          <li><a href="${anchor('floormap')}">フロアマップ</a></li>
-          <li><a href="${anchor('items')}">持ち物</a></li>
-          <li><a href="${anchor('access')}">アクセス</a></li>
-          <li><a href="${anchor('health')}">健康管理</a></li>
-          <li><a href="${anchor('contact')}">お問い合わせ</a></li>
-        </ul>
-      </nav>
-
-      <!-- コピーライトはフッター(footer.js)と重複するため非表示。キャラクター画像は装飾＋吹き出し用に残す。 -->
-      <div class="sidebar-footer">
-        <img src="${assetsBase}fav/dot_girl.svg" alt="" class="sidebar-footer-char sidebar-footer-char-left">
-        <img src="${assetsBase}fav/dot_boy.svg" alt="" class="sidebar-footer-char sidebar-footer-char-right">
-      </div>
-    </aside>`;
-  }
 
   function staffSidebar() {
     return `
@@ -171,11 +110,9 @@
       console.error('[sidebar.js] #site-sidebar が見つかりません。');
       return;
     }
-    const variant = placeholder.dataset.variant || 'public';
+    const variant = placeholder.dataset.variant || 'staff';
     const sidebarHTML =
-      variant === 'staff-mtg' ? staffMtgSidebar()
-      : variant === 'staff' ? staffSidebar()
-      : publicSidebar();
+      variant === 'staff-mtg' ? staffMtgSidebar() : staffSidebar();
 
     // プレースホルダを「ハンバーガー + サイドバー + オーバーレイ」の3要素に差し替え。
     placeholder.outerHTML = hamburgerHTML + sidebarHTML + overlayHTML;

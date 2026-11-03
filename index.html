@@ -3,972 +3,661 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BeEngineer × LOGOS LAND プログラミングキャンプ 2026 冬の参加者向け案内ページ。2026年12月26日(土)〜28日(月)、ロゴスランド京都で開催。集合案内・スケジュール・持ち物・アクセスなどを掲載しています。">
+    <title>合宿のご案内｜プログラミングキャンプ 2026 冬 | BeEngineer × LOGOS LAND</title>
     <link rel="icon" type="image/svg+xml" href="assets/fav/favicon.svg">
-    <meta name="description" content="BeEngineer プログラミング合宿 2026年12月26日〜28日 ロゴスランドで開催">
-    <title>BeEngineer Programming Camp | ロゴスランド合宿</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Jersey+10&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    </head>
-<body>
-    <!-- ハンバーガー / サイドバー / オーバーレイ（共通コンポーネント / assets/sidebar.js が描画） -->
-    <div id="site-sidebar" data-variant="public"></div>
+</head>
+<body id="top">
+    <!-- 背景の雪（script.js の initSnowfall が描画） -->
+    <canvas class="snowfall" data-snowfall aria-hidden="true"></canvas>
 
-    <!-- メインコンテンツ -->
-    <main class="main-content">
-    
-        <!-- ヒーローセクション -->
-        <section id="hero" class="hero">
-            <div class="hero-content">
-                <div class="hero-panel">
-                <h1 class="hero-title">外で、学んで、<br>楽しんで、成長する。</h1>
-                <p class="hero-subtitle">いつもと異なる環境で、<br class="sp-br">スキルも人間力も磨く。<br>BeEngineerの合宿、<br class="sp-br">緑に囲まれたLOGOS LANDへ。</p>
-                <div class="hero-date">12/26<small>(土)</small> ー 12/28<small>(月)</small></div>
-                <div class="hero-location">📍 ロゴスランド京都（京都府城陽市）</div>
-                <a href="#program" class="hero-cta">学習内容を見る ▼</a>
-                </div>
-            </div>
-        </section>
+    <a class="skip-link" href="#main">本文へスキップ</a>
 
-        <!-- ご案内 -->
-        <section id="guide" class="section">
-            <div class="container">
-                <h2 class="section-title">ご案内</h2>
-                <div class="guide-toggle-wrapper" data-guide-toggle>
-                    <div class="guide-toggle-header">
-                        <span class="guide-toggle-title">📍 集合場所・注意事項を確認</span>
-                        <span class="guide-toggle-icon">▼</span>
-                    </div>
-                    <div class="guide-content">
-                    <div class="guide-text">
-                        <p class="guide-main">初日13:00ごろから</p>
-                        <p class="guide-detail">
-                            <strong>JR奈良線・城陽駅の改札前</strong>でスタッフが待機しています<br>
-                            （写真の赤枠の範囲にいます！）
-                        </p>
-                        <p class="guide-detail">
-                            <strong>13:07発のバス</strong>までご案内します。
-                        </p>
-                        <p class="guide-note">
-                            ※一緒に乗車しますので、降車のタイミングもご案内します。
-                        </p>
-                        
-                        <div class="guide-notice-inline">
-                            <p class="guide-notice-item">
-                                <span class="guide-notice-icon">⚠️</span>
-                                <strong>城陽駅周辺にはコンビニがありませんのでご注意ください。</strong>
-                            </p>
-                            <p class="guide-notice-item">
-                                <span class="guide-notice-icon">🍱</span>
-                                <strong>14:00集合後、合宿プログラム開始となりますので、集合時間までの間に昼食を済ませるようお願いします。</strong>
-                            </p>
-                            <p class="guide-notice-contact">
-                                （判断が難しい場合は、各校舎にご連絡ください。）
-                            </p>
-                        </div>
-                    </div>
-                    <div class="guide-image">
-                        <img src="assets/guide/station.jpeg" alt="城陽駅 改札前の待ち合わせ場所" loading="lazy">
-                    </div>
-                    </div>
-                </div>
-                
-                <div class="line-info-box" data-line-toggle>
-                    <div class="line-toggle-header">
-                        <span class="line-toggle-title">📱 合宿連絡用のLINEアカウント</span>
-                        <span class="line-toggle-icon">▼</span>
-                    </div>
-                    <div class="line-info-content-wrapper">
-                    <div class="line-info-content">
-                        <div class="line-character line-character-left">
-                            <img src="assets/fav/dot_boy.svg" alt="キャラクター" class="line-character-img">
-                        </div>
-                        <div class="line-qr-section">
-                            <!-- ============================================================
-                                 冬合宿用 LINE QR の差し替え場所
-                                 1. 画像を assets/guide/ に置く（例: BeEn2026winter_LINE_QR.png）
-                                 2. 下のプレースホルダーを削除し、img のコメントを外す
-                                 3. リンクの「準備中」を外し、新しい URL を a href に入れる
-                                 ============================================================ -->
-                            <div class="line-qr-placeholder" aria-label="QRコード準備中">
-                                <span class="line-qr-placeholder-icon">📱</span>
-                                <span class="line-qr-placeholder-text">QRコード準備中</span>
-                                <span class="line-qr-placeholder-hint">画像をここに配置</span>
-                            </div>
-                            <!-- <img src="assets/guide/BeEn2026winter_LINE_QR.png" alt="BeEngineer合宿2026冬 LINE QRコード" class="line-qr-code"> -->
-                            <p class="line-link">
-                                <span class="line-link-pending">準備中</span>
-                                <!-- <a href="https://lin.ee/" target="_blank" rel="noopener noreferrer">https://lin.ee/</a> -->
-                            </p>
-                            <div class="line-text-section">
-                                <p class="line-account-name">
-                                    <strong>アカウント名（準備中）</strong>
-                                </p>
-                                <p class="line-description">
-                                    合宿関連のご連絡はこちらから送らせていただきます。
-                                </p>
-                            </div>
-                        </div>
-                        <div class="line-character line-character-right">
-                            <img src="assets/fav/dot_girl.svg" alt="キャラクター" class="line-character-img">
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                
-                <div id="blog" class="blog-update-box" data-blog-update-toggle>
-                    <div class="blog-update-header">
-                        <span class="blog-update-title">📝 合宿ブログはこちら</span>
-                        <span class="blog-update-icon">▼</span>
-                    </div>
-                    <div class="blog-update-content">
-                        <p class="blog-update-text">
-                            <strong>合宿の様子はこちらから公開予定です。</strong><br>
-                            各日の記事は当日以降に順次公開します。
-                        </p>
-                        <div class="blog-update-links" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                            <a href="blog/day1.html" class="blog-link-btn" data-available-from="2026-12-26T00:00:00">1日目</a>
-                            <a href="blog/day2.html" class="blog-link-btn" data-available-from="2026-12-27T00:00:00">2日目</a>
-                            <a href="blog/day3.html" class="blog-link-btn" data-available-from="2026-12-28T00:00:00">3日目</a>
-                        </div>
-                        <div class="blog-update-notice">
-                            <p class="blog-notice-item">
-                                <span class="blog-notice-icon">🔒</span>
-                                <strong>参加者限定の情報です。</strong>
-                            </p>
-                            <p class="blog-notice-item">
-                                <span class="blog-notice-icon">🚫</span>
-                                <strong>広報用に利用するものではありません。</strong>
-                            </p>
-                            <p class="blog-notice-item">
-                                <span class="blog-notice-icon">📝</span>
-                                <strong>広報利用する際は、内容および写真を変更する予定です。</strong>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <!-- ヘッダー・メニュー（共通コンポーネント / assets/layout.js が描画） -->
+    <div id="site-header"></div>
 
-                <!-- ============================================================
-                    お知らせセクション
-                    ・カードの中身は assets/news.js の NEWS_ITEMS 配列で管理します。
-                    ============================================================ -->
-                <div class="news-box" data-news-toggle>
-                    <div class="news-toggle-header">
-                        <span class="news-toggle-title">📢 お知らせ</span>
-                        <span class="news-toggle-icon">▼</span>
-                    </div>
-                    <div class="news-content-wrapper">
-                        <p class="news-intro">合宿に関する大切なお知らせをこちらに掲載します。</p>
-                        <div class="news-list" id="news-list" data-news-list>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <main id="main">
 
-        <!-- 開催情報バー -->
-        <section id="overview" class="section overview-section">
-            <div class="container">
-                <div class="overview-grid">
-                <div class="overview-card">
-                    <div class="overview-icon">📅</div>
-                    <h3>開催日程</h3>
-                    <p class="overview-main">2026年12月26日（土）<br class="sp-br">〜28日（月）</p>
-                    <p class="overview-sub">13:00集合 〜 13:00解散<br class="sp-br">（2泊3日）</p>
-                    <a href="#schedule" class="overview-btn">
-                        スケジュールを見る
-                    </a>
-                </div>
-                
-                <div class="overview-card">
-                    <div class="overview-icon">📍</div>
-                    <h3>会場</h3>
-                    <p class="overview-main">ロゴスランド京都</p>
-                    <p class="overview-address">〒610-0121 <br class="sp-br">京都府城陽市<br class="sp-br">寺田大川原24-4</p>
-                    <a href="#access" class="overview-btn">
-                        アクセス方法を見る
-                    </a>
-                </div>
+        <!-- ============================================================
+             ファーストビュー
+             ============================================================ -->
+        <section class="fv" aria-labelledby="fv-title">
+            <img src="assets/img/cloud-left.svg" alt="" class="fv__cloud fv__cloud--left" width="2172" height="724" aria-hidden="true">
+            <img src="assets/img/cloud-right.svg" alt="" class="fv__cloud fv__cloud--right" width="795" height="379" aria-hidden="true">
+            <div class="fv__inner">
+                <div class="fv__copy">
+                    <p class="fv__badge"><span class="pixel-font">2026 WINTER</span>参加者・保護者のみなさまへ</p>
+                    <!-- PC: 雪だるまの吹き出しは看板の右上に重ねる（タブレット・SP は FV の最後に回す） -->
+                    <div class="fv__heading">
+                        <h1 class="fv__title" id="fv-title">
+                            <img src="assets/img/fv-title.svg" alt="プログラミングキャンプ" width="457" height="165" fetchpriority="high">
+                            <span class="fv__title-sub">冬合宿のご案内</span>
+                        </h1>
+                        <!-- 合宿までのカウントダウン・当日の進行（script.js の initCountdown が表示） -->
+                        <p class="fv__status" data-countdown hidden>
+                            <img src="assets/img/snowman.svg" alt="" width="1327" height="1186">
+                            <span class="fv__status-bubble" data-countdown-text aria-live="polite"></span>
+                        </p>
+                    </div>
+                    <p class="fv__info">
+                        <!-- 看板の左右に添えるイラスト（画面の端で少し見切れる） -->
+                        <img src="assets/img/fv-bbq.svg" alt="" class="fv__side fv__side--bbq" width="1536" height="1024" aria-hidden="true">
+                        <img src="assets/img/fv-tent.svg" alt="" class="fv__side fv__side--tent" width="1448" height="1086" aria-hidden="true">
+                        <span class="fv__info-item fv__info-item--date">
+                            <svg class="fv__info-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v2H4a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-3V2h-2v2H9V2zM5 9h14v10H5zm2 2v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2zm-8 4v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2z"/></svg>
+                            <span class="fv__info-text">12月26日(土)<span class="fv__info-arrow" aria-label="から">▸</span>28日(月)</span>
+                        </span>
+                        <span class="fv__info-item">
+                            <svg class="fv__info-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7.5 7.5 0 0 0-7.5 7.5C4.5 15 12 22 12 22s7.5-7 7.5-12.5A7.5 7.5 0 0 0 12 2zm0 2.2a5.3 5.3 0 0 1 5.3 5.3c0 3.3-3.6 7.6-5.3 9.4-1.7-1.8-5.3-6.1-5.3-9.4A5.3 5.3 0 0 1 12 4.2zm0 2.3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+                            <span class="fv__info-text">ロゴスランド京都</span>
+                        </span>
+                        <span class="fv__info-item">
+                            <svg class="fv__info-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3zm0 4.2L18.6 19h-3.2L12 12.6 8.6 19H5.4L12 7.2z"/></svg>
+                            2泊3日
+                        </span>
+                    </p>
+                    <p class="fv__lead">集合場所・スケジュール・持ち物など、<br>合宿に参加するための情報をまとめています。</p>
+                    <div class="fv__cta">
+                        <a href="#guide" class="btn btn--primary">集合案内を見る</a>
+                        <a href="#items" class="btn btn--sub">持ち物チェック</a>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- ============================================================
-            引率講師の紹介
-            ・タブ（校舎）と講師カードの中身は assets/teachers.js の
-                TEACHERS データで管理します。
-            ・内容の変更・追加は assets/teachers.js を編集してください。
-            　（下の2つの空 <div> の中身は JS が自動生成します）
-            ============================================================ -->
-        <section id="teachers" class="section">
+             お知らせ・LINE
+             ・お知らせカードの中身は assets/news.js の NEWS_ITEMS 配列で管理します。
+             ============================================================ -->
+        <section class="section" id="news" aria-labelledby="news-title">
             <div class="container">
-                <h2 class="section-title">引率講師の紹介</h2>
-                <p class="section-intro">
-                    各校舎の引率講師をご紹介します。
+                <div class="section-head">
+                    <p class="section-head__en">NEWS</p>
+                    <h2 class="section-title" id="news-title">お知らせ</h2>
+                </div>
+                <!-- お知らせと LINE を1枚の白い枠にまとめ、縦線で2カラムに分ける -->
+                <div class="news-layout pixel-card">
+                    <div class="news-board">
+                        <p class="news-board__intro">合宿に関する大切なお知らせをこちらに掲載します。</p>
+                        <div class="news-list" id="news-list" data-news-list></div>
+                    </div>
+
+                    <div class="line-card">
+                        <h3 class="card-heading">合宿連絡用のLINEアカウント</h3>
+                        <!-- ============================================================
+                             冬合宿用 LINE QR の差し替え場所
+                             1. 画像を assets/guide/ に置く（例: BeEn2026winter_LINE_QR.png）
+                             2. 下のプレースホルダーを削除し、img のコメントを外す
+                             3. リンクの「準備中」を外し、新しい URL を a href に入れる
+                             ============================================================ -->
+                        <div class="line-card__body">
+                            <div class="line-card__qr line-card__qr--placeholder" aria-label="QRコード準備中">
+                                <span>QRコード<br>準備中</span>
+                            </div>
+                            <!-- <img src="assets/guide/BeEn2026winter_LINE_QR.png" alt="BeEngineer合宿2026冬 LINE QRコード" class="line-card__qr" width="160" height="160"> -->
+                            <div class="line-card__text">
+                                <p class="line-card__name">アカウント名（準備中）</p>
+                                <p class="line-card__link">
+                                    <span class="tag-pending">準備中</span>
+                                    <!-- <a href="https://lin.ee/" target="_blank" rel="noopener noreferrer">https://lin.ee/</a> -->
+                                </p>
+                                <p>合宿関連のご連絡はこちらから送らせていただきます。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             開催概要
+             ============================================================ -->
+        <section class="section" id="overview" aria-labelledby="overview-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">OVERVIEW</p>
+                    <h2 class="section-title" id="overview-title">開催概要</h2>
+                </div>
+                <ul class="overview__list">
+                    <li class="overview__card pixel-card">
+                        <img src="assets/img/icon-date.svg" alt="" class="overview__icon" width="1254" height="1254" loading="lazy">
+                        <h3 class="overview__label">開催日程</h3>
+                        <p class="overview__main overview__date">
+                            <span class="overview__year">2026年</span>
+                            <span class="overview__range">
+                                <span>12月26日(土)</span>
+                                <span class="overview__arrow" aria-label="から"></span>
+                                <span>12月28日(月)</span>
+                            </span>
+                        </p>
+                        <p class="overview__sub">2泊3日</p>
+                        <a href="#schedule" class="btn btn--sub btn--small">スケジュールを見る</a>
+                    </li>
+                    <li class="overview__card overview__card--venue pixel-card">
+                        <img src="assets/img/icon-venue.svg" alt="" class="overview__icon" width="1402" height="1122" loading="lazy">
+                        <h3 class="overview__label">会場</h3>
+                        <p class="overview__main">ロゴスランド京都</p>
+                        <p class="overview__sub">〒610-0121<br>京都府城陽市寺田大川原24-4</p>
+                        <a href="#access" class="btn btn--sub btn--small">アクセス方法を見る</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             集合案内
+             ============================================================ -->
+        <section class="section" id="guide" aria-labelledby="guide-title">
+            <img src="assets/img/cloud-left.svg" alt="" class="deco deco--cloud-left" width="2172" height="724" loading="lazy">
+            <img src="assets/img/cloud-right.svg" alt="" class="deco deco--cloud-right" width="795" height="379" loading="lazy">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">MEETING POINT</p>
+                    <h2 class="section-title" id="guide-title">集合案内</h2>
+                </div>
+                <div class="guide pixel-card">
+                    <div class="guide__text">
+                        <p class="guide__time"><span class="guide__time-label">1日目</span>13:00ごろから</p>
+                        <p class="guide__place">
+                            <strong>JR奈良線・城陽駅の改札前</strong>でスタッフが待機しています<br>
+                            （写真の赤枠の範囲にいます！）
+                        </p>
+                        <p class="guide__place"><strong>13:07発のバス</strong>までご案内します。</p>
+                        <p class="guide__note">※一緒に乗車しますので、降車のタイミングもご案内します。</p>
+
+                        <ul class="notice-list">
+                            <li class="notice-list__item">
+                                <span class="notice-list__mark" aria-hidden="true">!</span>
+                                <strong>城陽駅周辺にはコンビニがありませんのでご注意ください。</strong>
+                            </li>
+                            <li class="notice-list__item">
+                                <span class="notice-list__mark" aria-hidden="true">!</span>
+                                <strong>14:00集合後、合宿プログラム開始となりますので、集合時間までの間に昼食を済ませるようお願いします。</strong>
+                            </li>
+                        </ul>
+                        <p class="guide__contact">（判断が難しい場合は、各校舎にご連絡ください。）</p>
+                    </div>
+                    <figure class="guide__photo">
+                        <a href="assets/guide/station.jpeg" class="zoomable" aria-label="待ち合わせ場所の写真を拡大して表示">
+                            <img src="assets/guide/station.jpeg" alt="城陽駅 改札前の待ち合わせ場所（赤枠の範囲）" loading="lazy">
+                        </a>
+                        <figcaption>JR城陽駅 改札前（タップで拡大）</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             学習プログラム
+             ============================================================ -->
+        <section class="section section--blue program" id="program" aria-labelledby="program-title">
+            <div class="program__deco" aria-hidden="true">
+                <img src="assets/img/sparkle.svg" alt="" class="program__sparkle-left" width="1374" height="1145" loading="lazy">
+                <img src="assets/img/bubble-user.svg" alt="" class="program__bubble-user" width="1358" height="1158" loading="lazy">
+                <img src="assets/img/bubble-heart.svg" alt="" class="program__bubble-heart" width="1432" height="1098" loading="lazy">
+                <img src="assets/img/bubble-comment.svg" alt="" class="program__bubble-comment" width="1089" height="846" loading="lazy">
+            </div>
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">PROGRAM</p>
+                    <h2 class="section-title" id="program-title">学習プログラム</h2>
+                </div>
+                <p class="program__catch">Djangoで<br class="br-sp">オリジナルのSNSアプリを開発！</p>
+                <p class="program__lead">実務の形を体験しながら、GitHubなどグループ開発ならではのツールの使い方を学びます。<br class="br-pc">2泊3日で授業から開発、発表まで集中して取り組みます。</p>
+
+                <div class="program__panel pixel-card">
+                    <ul class="program__list">
+                        <li class="program__item">
+                            <h3 class="bubble-tag">グループ開発</h3>
+                            <img src="assets/img/program-group.svg" alt="" class="program__illust" width="1536" height="1024" loading="lazy">
+                            <p class="program__text">実務に近い形でグループ開発を行います。ツールを使った開発を通じて、グループ開発だからこそのスピード感や難しさを体験します。</p>
+                        </li>
+                        <li class="program__item">
+                            <h3 class="bubble-tag">スキル習得</h3>
+                            <img src="assets/img/program-skill.svg" alt="" class="program__illust" width="1536" height="1024" loading="lazy">
+                            <p class="program__text">JavaScriptでアプリを高機能にするスキルを学びます。ここで学んだことを活かしてグループ開発をレベルアップさせます。</p>
+                        </li>
+                        <li class="program__item">
+                            <h3 class="bubble-tag">発表</h3>
+                            <img src="assets/img/program-presentation.svg" alt="" class="program__illust program__illust--shift" width="1536" height="1024" loading="lazy">
+                            <p class="program__text">最後に、作成したアプリについて発表します。講師や仲間からの評価やフィードバック、他のグループのいいところを今後に活かせます。</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <h3 class="program__flow-title">合宿の流れ</h3>
+                <ol class="chapter-list">
+                    <li class="chapter pixel-card">
+                        <p class="chapter__head"><span class="chapter__num">CHAPTER 1</span><span class="chapter__title">ベースアプリの完成</span></p>
+                        <p class="chapter__text">オリジナル開発の元となるSNSアプリを開発します。グループ開発の基本を学びます。</p>
+                    </li>
+                    <li class="chapter pixel-card">
+                        <p class="chapter__head"><span class="chapter__num">CHAPTER 2</span><span class="chapter__title">グループ開発</span></p>
+                        <p class="chapter__text">チームに分かれて、役割分担をしながら開発をします。グループごとに相談して、オリジナルの機能を実装します。</p>
+                    </li>
+                    <li class="chapter pixel-card">
+                        <p class="chapter__head"><span class="chapter__num">CHAPTER 3</span><span class="chapter__title">発表</span></p>
+                        <p class="chapter__text">作成したアプリを発表します。講師からの評価やフィードバック、他のグループのいいところを今後に活かしましょう。</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             スケジュール
+             ・表の中身は assets/schedule-data.js で管理（assets/schedule.js が描画）
+             ============================================================ -->
+        <section class="section" id="schedule" aria-labelledby="schedule-title">
+            <img src="assets/img/lantern.svg" alt="" class="deco deco--lantern" width="1223" height="1286" loading="lazy">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">SCHEDULE</p>
+                    <h2 class="section-title" id="schedule-title">3日間のスケジュール</h2>
+                </div>
+                <p class="section-lead">2泊3日でプログラミングには合計16時間取り組みます。<br class="br-pc">夜は振り返りを楽しむ時間、またはさらにプログラミングを進めることもできます！</p>
+
+                <div class="tabs tabs--days" role="tablist" aria-label="日にちの切り替え" data-schedule-tabs>
+                    <button type="button" class="tab" role="tab" id="tab-schedule-day1" aria-controls="schedule-day1" aria-selected="true" data-tab="schedule-day1">
+                        <span class="tab__day pixel-font">DAY 1</span><span class="tab__date">12/26(土)</span>
+                    </button>
+                    <button type="button" class="tab" role="tab" id="tab-schedule-day2" aria-controls="schedule-day2" aria-selected="false" data-tab="schedule-day2" tabindex="-1">
+                        <span class="tab__day pixel-font">DAY 2</span><span class="tab__date">12/27(日)</span>
+                    </button>
+                    <button type="button" class="tab" role="tab" id="tab-schedule-day3" aria-controls="schedule-day3" aria-selected="false" data-tab="schedule-day3" tabindex="-1">
+                        <span class="tab__day pixel-font">DAY 3</span><span class="tab__date">12/28(月)</span>
+                    </button>
+                </div>
+
+                <div class="schedule pixel-card" data-schedule-panels>
+                    <!-- assets/schedule.js が描画 -->
+                </div>
+
+                <!-- 1日目・2日目のタブでのみ表示（data-note-days で指定 / script.js が制御） -->
+                <p class="schedule__note" data-schedule-note data-note-days="schedule-day1 schedule-day2">
+                    授業はまとめて記載していますが、間に休憩時間を設けています。<br>
+                    21時以降は自由で、わからないことを聞く、実装の続きをする、早めに就寝するなど各自で過ごす時間となります。
                 </p>
+            </div>
+            <img src="assets/img/bonfire.svg" alt="" class="deco deco--bonfire" width="1536" height="1024" loading="lazy">
+        </section>
 
+        <!-- ============================================================
+             引率講師の紹介
+             ・タブ（校舎）と講師カードの中身は assets/teachers.js の TEACHERS データで管理します。
+             ============================================================ -->
+        <section class="section" id="teachers" aria-labelledby="teachers-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">TEACHERS</p>
+                    <h2 class="section-title" id="teachers-title">引率講師の紹介</h2>
+                    <img src="assets/img/flake-right.svg" alt="" class="head-deco head-deco--left head-deco--flake head-deco--mirror" width="471" height="468" loading="lazy">
+                    <img src="assets/img/flake-right.svg" alt="" class="head-deco head-deco--right head-deco--flake" width="471" height="468" loading="lazy">
+                </div>
+                <p class="section-lead">各校舎の引率講師をご紹介します。</p>
                 <!-- 校舎タブ（JSが自動生成） -->
-                <div class="teachers-tabs" data-teachers-tabs role="tablist" aria-label="校舎の切り替え"></div>
-
+                <div class="tabs teachers-tabs" data-teachers-tabs role="tablist" aria-label="校舎の切り替え"></div>
                 <!-- 講師カード（JSが自動生成） -->
                 <div class="teachers-panels" data-teachers-panels></div>
             </div>
         </section>
 
-        <!-- 学習内容 -->
-        <section id="program" class="section">
+        <!-- ============================================================
+             会場・フロアマップ
+             ============================================================ -->
+        <section class="section section--blue" id="floormap" aria-labelledby="floormap-title">
             <div class="container">
-                <h2 class="section-title">学習プログラム</h2>
-                <p class="section-intro">
-                学習内容の詳細は決まり次第掲載します。（準備中）
-                </p>
-                
-                <!-- タブボタン（SP版のみ表示） -->
-                <div class="program-tabs">
-                    <button class="program-tab-btn" data-tab="1">
-                        <span class="tab-icon">💡</span>
-                        <span class="tab-text">CHAPTER 1</span>
-                    </button>
-                    <button class="program-tab-btn" data-tab="2">
-                        <span class="tab-icon">🤖</span>
-                        <span class="tab-text">CHAPTER 2</span>
-                    </button>
-                    <button class="program-tab-btn" data-tab="3">
-                        <span class="tab-icon">🏆</span>
-                        <span class="tab-text">CHAPTER 3</span>
-                    </button>
+                <div class="section-head">
+                    <p class="section-head__en">FLOOR MAP</p>
+                    <h2 class="section-title" id="floormap-title">会場・フロアマップ</h2>
                 </div>
-                
-                <!-- コンテンツエリア -->
-                <div class="card-grid">
-                <div class="card card-orange program-card" data-program-card data-tab-content="1">
-                    <div class="card-header">
-                        <div class="card-icon">💡</div>
-                        <div class="card-header-text">
-                            <div class="chapter-number">CHAPTER 1</div>
-                            <h3 class="card-title">ルール理解</h3>
-                        </div>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="card-content">
-                    <p>準備中</p>
-                    </div>
-                </div>
-                
-                <div class="card card-green program-card" data-program-card data-tab-content="2">
-                    <div class="card-header">
-                        <div class="card-icon">🤖</div>
-                        <div class="card-header-text">
-                            <div class="chapter-number">CHAPTER 2</div>
-                            <h3 class="card-title">戦略設計・AI実装・調整</h3>
-                        </div>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="card-content">
-                    <p>準備中</p>
-                    </div>
-                </div>
-                
-                <div class="card card-orange program-card" data-program-card data-tab-content="3">
-                    <div class="card-header">
-                        <div class="card-icon">🏆</div>
-                        <div class="card-header-text">
-                            <div class="chapter-number">CHAPTER 3</div>
-                            <h3 class="card-title">最終対戦・ふり返り</h3>
-                        </div>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="card-content">
-                    <p>準備中</p>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- スケジュール -->
-        <section id="schedule" class="section">
-            <div class="container">
-                <h2 class="section-title">スケジュール</h2>
-                <p class="section-desc">
-                2泊3日でプログラミングには合計16時間取り組みます。夜は振り返りを楽しむ時間、またはさらにプログラミングを進めることもできます！
-                </p>
-                
-                <!-- タブメニュー -->
-                <div class="schedule-tabs">
-                    <button class="tab-btn active" data-tab="schedule-day1">
-                        <span class="tab-emoji"></span> １日目 - 12/26（土）
-                    </button>
-                    <button class="tab-btn" data-tab="schedule-day2">
-                        <span class="tab-emoji"></span> ２日目 - 12/27（日）
-                    </button>
-                    <button class="tab-btn" data-tab="schedule-day3">
-                        <span class="tab-emoji"></span> ３日目 - 12/28（月）
-                    </button>
-                </div>
-                
-                <!-- 表の中身は assets/schedule-data.js で管理（assets/schedule.js が描画） -->
-                <div class="schedule-table-wrapper">
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                        <th>時間</th>
-                        <th>場所</th>
-                        <th>内容</th>
-                        <th>備考</th>
-                        </tr>
-                    </thead>
-                    <tbody data-schedule-tbody>
-                        <!-- assets/schedule.js が描画 -->
-                    </tbody>
-                </table>
-                </div>
-                
-                <!-- 1日目・2日目のタブでのみ表示（data-note-days で指定 / script.js が制御） -->
-                <p class="section-note" data-schedule-note data-note-days="schedule-day1 schedule-day2">
-                授業はまとめて記載していますが、間に休憩時間を設けています。
-                21時以降は自由で、わからないことを聞く、実装の続きをする、早めに就寝するなど各自で過ごす時間となります。
-                </p>
-            </div>
-        </section>
-
-        <!-- フロアマップ -->
-        <section id="floormap" class="section">
-            <div class="container">
-                <h2 class="section-title">フロアマップ</h2>
-                <p class="section-desc">
-                    ロゴスランドの館内マップです。各階の施設配置をご確認ください。
-                </p>
+                <p class="section-lead">ロゴスランドの館内マップです。各階の施設配置をご確認ください。</p>
 
                 <!-- 施設タブ：プラムイン城陽 / アイリスイン城陽 -->
-                <div class="facility-tabs" role="tablist" aria-label="施設の切り替え">
-                    <button class="facility-tab-btn active" data-facility="plum" role="tab" aria-selected="true">
-                        プラムイン城陽
-                    </button>
-                    <button class="facility-tab-btn" data-facility="iris" role="tab" aria-selected="false">
-                        アイリスイン城陽
-                    </button>
+                <div class="tabs tabs--facility" role="tablist" aria-label="施設の切り替え" data-facility-tabs>
+                    <button type="button" class="tab" role="tab" id="tab-facility-plum" aria-controls="facility-plum" aria-selected="true" data-facility="plum">プラムイン城陽</button>
+                    <button type="button" class="tab" role="tab" id="tab-facility-iris" aria-controls="facility-iris" aria-selected="false" data-facility="iris" tabindex="-1">アイリスイン城陽</button>
                 </div>
 
                 <!-- プラムイン城陽 -->
-                <div class="facility-content active" data-facility-content="plum" role="tabpanel">
-                    <!-- フロアマップタブ -->
-                    <div class="floormap-tabs">
-                        <button class="floormap-tab-btn active" data-floor="floor-1f">
-                            <span class="floor-icon"></span> 1F
-                        </button>
-                        <button class="floormap-tab-btn" data-floor="floor-2f">
-                            <span class="floor-icon"></span> 2F
-                        </button>
-                        <button class="floormap-tab-btn" data-floor="floor-3f">
-                            <span class="floor-icon"></span> 3F
-                        </button>
+                <div class="facility" id="facility-plum" role="tabpanel" aria-labelledby="tab-facility-plum" data-facility-panel="plum">
+                    <div class="floor-tabs" role="tablist" aria-label="プラムイン城陽の階" data-floor-tabs>
+                        <button type="button" class="floor-tab" role="tab" aria-selected="true" aria-controls="floor-plum-1f" data-floor="plum-1f">1 F</button>
+                        <button type="button" class="floor-tab" role="tab" aria-selected="false" aria-controls="floor-plum-2f" data-floor="plum-2f" tabindex="-1">2 F</button>
+                        <button type="button" class="floor-tab" role="tab" aria-selected="false" aria-controls="floor-plum-3f" data-floor="plum-3f" tabindex="-1">3 F</button>
                     </div>
-
-                    <div class="floormap-grid">
-                        <!-- 1F -->
-                        <div class="floormap-item active" data-floormap-item data-floor-content="floor-1f">
-                            <div class="floormap-header" data-floormap-header>
-                                <h3 class="floormap-title">1F</h3>
-                                <span class="floormap-toggle-icon">▼</span>
-                            </div>
-                            <div class="floormap-content">
-                                <div class="floormap-legend">
-                                    <ul>
-                                        <li><span class="legend-number">1</span> レストラン</li>
-                                        <li><span class="legend-number">2</span> フロント</li>
-                                        <li><span class="legend-number">3</span> ロビー</li>
-                                        <li><span class="legend-number">4</span> ホール</li>
-                                        <li><span class="legend-number">5</span> 女子・男子トイレ</li>
-                                        <li><span class="legend-number">6</span> 野外活動ピロティ</li>
-                                    </ul>
-                                </div>
-                                <div class="floormap-image">
-                                    <img src="assets/map/pluminn_1f.png" alt="プラムイン城陽 1階フロアマップ" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 2F -->
-                        <div class="floormap-item" data-floormap-item data-floor-content="floor-2f">
-                            <div class="floormap-header" data-floormap-header>
-                                <h3 class="floormap-title">2F</h3>
-                                <span class="floormap-toggle-icon">▼</span>
-                            </div>
-                            <div class="floormap-content">
-                                <div class="floormap-legend">
-                                    <ul>
-                                        <li><span class="legend-number">1</span> 女子浴室・更衣室</li>
-                                        <li><span class="legend-number">2</span> 男子浴室・更衣室</li>
-                                        <li><span class="legend-number">3</span> 女子・男子トイレ</li>
-                                        <li><span class="legend-number">4</span> ロビー</li>
-                                        <li><span class="legend-number">5</span> フリースペース</li>
-                                        <li><span class="legend-number">6</span> 宿泊室</li>
-                                    </ul>
-                                </div>
-                                <div class="floormap-image">
-                                    <img src="assets/map/pluminn_2f.png" alt="プラムイン城陽 2階フロアマップ" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3F -->
-                        <div class="floormap-item" data-floormap-item data-floor-content="floor-3f">
-                            <div class="floormap-header" data-floormap-header>
-                                <h3 class="floormap-title">3F</h3>
-                                <span class="floormap-toggle-icon">▼</span>
-                            </div>
-                            <div class="floormap-content">
-                                <div class="floormap-legend">
-                                    <ul>
-                                        <li><span class="legend-number">1</span> BBQテラス</li>
-                                        <li><span class="legend-number">2</span> 研修室</li>
-                                        <li><span class="legend-number">3</span> 女子・男子トイレ</li>
-                                        <li><span class="legend-number">4</span> ロビー</li>
-                                        <li><span class="legend-number">5</span> 宿泊室</li>
-                                    </ul>
-                                </div>
-                                <div class="floormap-image">
-                                    <img src="assets/map/pluminn_3f.png" alt="プラムイン城陽 3階フロアマップ" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="floor pixel-card" id="floor-plum-1f" role="tabpanel" data-floor-panel="plum-1f">
+                        <h3 class="floor__title"><span class="pixel-font">1F</span>プラムイン城陽</h3>
+                        <ol class="floor__legend">
+                            <li>レストラン</li>
+                            <li>フロント</li>
+                            <li>ロビー</li>
+                            <li>ホール</li>
+                            <li>女子・男子トイレ</li>
+                            <li>野外活動ピロティ</li>
+                        </ol>
+                        <a href="assets/map/pluminn_1f.png" class="floor__map zoomable" aria-label="プラムイン城陽 1階フロアマップを拡大して表示">
+                            <img src="assets/map/pluminn_1f.png" alt="プラムイン城陽 1階フロアマップ" loading="lazy">
+                        </a>
+                    </div>
+                    <div class="floor pixel-card" id="floor-plum-2f" role="tabpanel" data-floor-panel="plum-2f" hidden>
+                        <h3 class="floor__title"><span class="pixel-font">2F</span>プラムイン城陽</h3>
+                        <ol class="floor__legend">
+                            <li>女子浴室・更衣室</li>
+                            <li>男子浴室・更衣室</li>
+                            <li>女子・男子トイレ</li>
+                            <li>ロビー</li>
+                            <li>フリースペース</li>
+                            <li>宿泊室</li>
+                        </ol>
+                        <a href="assets/map/pluminn_2f.png" class="floor__map zoomable" aria-label="プラムイン城陽 2階フロアマップを拡大して表示">
+                            <img src="assets/map/pluminn_2f.png" alt="プラムイン城陽 2階フロアマップ" loading="lazy">
+                        </a>
+                    </div>
+                    <div class="floor pixel-card" id="floor-plum-3f" role="tabpanel" data-floor-panel="plum-3f" hidden>
+                        <h3 class="floor__title"><span class="pixel-font">3F</span>プラムイン城陽</h3>
+                        <ol class="floor__legend">
+                            <li>BBQテラス</li>
+                            <li>研修室</li>
+                            <li>女子・男子トイレ</li>
+                            <li>ロビー</li>
+                            <li>宿泊室</li>
+                        </ol>
+                        <a href="assets/map/pluminn_3f.png" class="floor__map zoomable" aria-label="プラムイン城陽 3階フロアマップを拡大して表示">
+                            <img src="assets/map/pluminn_3f.png" alt="プラムイン城陽 3階フロアマップ" loading="lazy">
+                        </a>
                     </div>
                 </div>
 
                 <!-- アイリスイン城陽 -->
-                <div class="facility-content" data-facility-content="iris" role="tabpanel">
-                    <!-- フロアマップタブ -->
-                    <div class="floormap-tabs">
-                        <button class="floormap-tab-btn active" data-floor="iris-1f">
-                            <span class="floor-icon"></span> 1F
-                        </button>
-                        <button class="floormap-tab-btn" data-floor="iris-2f">
-                            <span class="floor-icon"></span> 2F
-                        </button>
+                <div class="facility" id="facility-iris" role="tabpanel" aria-labelledby="tab-facility-iris" data-facility-panel="iris" hidden>
+                    <div class="floor-tabs" role="tablist" aria-label="アイリスイン城陽の階" data-floor-tabs>
+                        <button type="button" class="floor-tab" role="tab" aria-selected="true" aria-controls="floor-iris-1f" data-floor="iris-1f">1 F</button>
+                        <button type="button" class="floor-tab" role="tab" aria-selected="false" aria-controls="floor-iris-2f" data-floor="iris-2f" tabindex="-1">2 F</button>
                     </div>
-
-                    <div class="floormap-grid">
-                        <!-- アイリス 1F -->
-                        <div class="floormap-item active" data-floormap-item data-floor-content="iris-1f">
-                            <div class="floormap-header" data-floormap-header>
-                                <h3 class="floormap-title">1F</h3>
-                                <span class="floormap-toggle-icon">▼</span>
-                            </div>
-                            <div class="floormap-content">
-                                <div class="floormap-legend">
-                                    <ul>
-                                        <li><span class="legend-number">1</span> 実演スペース</li>
-                                        <li><span class="legend-number">2</span> ショップ</li>
-                                        <li><span class="legend-number">3</span> ロビー＆ショップ</li>
-                                        <li><span class="legend-number">4</span> 宿泊室</li>
-                                        <li><span class="legend-number">5</span> 女子・男子トイレ</li>
-                                    </ul>
-                                </div>
-                                <div class="floormap-image">
-                                    <img src="assets/map/irisinn_1f.png" alt="アイリスイン城陽 1階フロアマップ" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- アイリス 2F -->
-                        <div class="floormap-item" data-floormap-item data-floor-content="iris-2f">
-                            <div class="floormap-header" data-floormap-header>
-                                <h3 class="floormap-title">2F</h3>
-                                <span class="floormap-toggle-icon">▼</span>
-                            </div>
-                            <div class="floormap-content">
-                                <div class="floormap-legend">
-                                    <ul>
-                                        <li><span class="legend-number">1</span> 大浴場・小浴場</li>
-                                        <li><span class="legend-number">2</span> 女子・男子トイレ</li>
-                                        <li><span class="legend-number">3</span> 宿泊室</li>
-                                        <li><span class="legend-number">4</span> ロビー</li>
-                                        <li><span class="legend-number">5</span> LOGOS KID&rsquo;S MINI PARK</li>
-                                        <li><span class="legend-number">6</span> カフェ</li>
-                                    </ul>
-                                </div>
-                                <div class="floormap-image">
-                                    <img src="assets/map/irisinn_2f.png" alt="アイリスイン城陽 2階フロアマップ" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="floor pixel-card" id="floor-iris-1f" role="tabpanel" data-floor-panel="iris-1f">
+                        <h3 class="floor__title"><span class="pixel-font">1F</span>アイリスイン城陽</h3>
+                        <ol class="floor__legend">
+                            <li>実演スペース</li>
+                            <li>ショップ</li>
+                            <li>ロビー＆ショップ</li>
+                            <li>宿泊室</li>
+                            <li>女子・男子トイレ</li>
+                        </ol>
+                        <a href="assets/map/irisinn_1f.png" class="floor__map zoomable" aria-label="アイリスイン城陽 1階フロアマップを拡大して表示">
+                            <img src="assets/map/irisinn_1f.png" alt="アイリスイン城陽 1階フロアマップ" loading="lazy">
+                        </a>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 持ち物リスト -->
-        <section id="items" class="section">
-            <div class="container">
-                <h2 class="section-title">持ち物リスト</h2>
-                <p class="section-desc">
-                チェックを入れて準備しましょう！ ✅<br class="sp-br">（チェック状態は自動保存されます）
-                </p>
-                
-                <!-- PC版 -->
-                <div class="checklist checklist-pc" id="checklist">
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item1" data-item="item1">
-                        <label for="item1">💻 PC（貸出あり・持参推奨）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item2" data-item="item2">
-                        <label for="item2">🔌 電源コード・充電ケーブル</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item3" data-item="item3">
-                        <label for="item3">📓 ノート・筆記用具</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item4" data-item="item4">
-                        <label for="item4">🪪 マイナンバーカードのコピー<br>（保険証として利用することが目的）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item5" data-item="item5">
-                        <label for="item5">🪥 歯ブラシ・洗面用具</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item6" data-item="item6">
-                        <label for="item6">👕 衣服（2泊3日分・寝巻き推奨）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item7" data-item="item7">
-                        <label for="item7">🛁 バスタオル</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item8" data-item="item8">
-                        <label for="item8">🧴 ハンドタオル</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item9" data-item="item9">
-                        <label for="item9">💊 常備薬（必要な方）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item10" data-item="item10">
-                        <label for="item10">🧥 羽織もの（館内は空調完備）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item11" data-item="item11">
-                        <label for="item11">🥤 飲み物</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item12" data-item="item12">
-                        <label for="item12">📱 スマートフォン（連絡用）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item13" data-item="item13">
-                        <label for="item13">💰 お金（自動販売機があるので、交通費以外に用意していただいても大丈夫）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item14" data-item="item14">
-                        <label for="item14">☂️ 折りたたみ傘</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item15" data-item="item15">
-                        <label for="item15">🥿 スリッパや上履きなど（任意）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item16" data-item="item16">
-                        <label for="item16">🍽️ アレルギーチェックシート（未提出者）</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="item17" data-item="item17">
-                        <label for="item17">🧣 防寒類の持参（任意）</label>
-                    </div>
-                </div>
-                
-                <!-- SP版用のトグル形式 -->
-                <div class="items-mobile" data-items-mobile>
-                    <div class="items-mobile-header">
-                        <span class="items-mobile-title">持ち物を確認する</span>
-                        <span class="items-toggle-icon">▼</span>
-                    </div>
-                    <div class="items-mobile-content">
-                        <div class="checklist" id="checklist-mobile">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item1-mobile" data-item="item1">
-                                <label for="item1-mobile">💻 PC（貸出あり・持参推奨）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item2-mobile" data-item="item2">
-                                <label for="item2-mobile">🔌 電源コード・充電ケーブル</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item3-mobile" data-item="item3">
-                                <label for="item3-mobile">📓 ノート・筆記用具</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item4-mobile" data-item="item4">
-                                <label for="item4-mobile">🪪 マイナンバーカードのコピー<br>（保険証として利用することが目的）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item5-mobile" data-item="item5">
-                                <label for="item5-mobile">🪥 歯ブラシ・洗面用具</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item6-mobile" data-item="item6">
-                                <label for="item6-mobile">👕 衣服（2泊3日分・寝巻き推奨）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item7-mobile" data-item="item7">
-                                <label for="item7-mobile">🛁 バスタオル</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item8-mobile" data-item="item8">
-                                <label for="item8-mobile">🧴 ハンドタオル</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item9-mobile" data-item="item9">
-                                <label for="item9-mobile">💊 常備薬（必要な方）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item10-mobile" data-item="item10">
-                                <label for="item10-mobile">🧥 羽織もの（館内は空調完備）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item11-mobile" data-item="item11">
-                                <label for="item11-mobile">🥤 水筒（持参推奨）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item12-mobile" data-item="item12">
-                                <label for="item12-mobile">📱 スマートフォン（連絡用）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item13-mobile" data-item="item13">
-                                <label for="item13-mobile">💰 お金（自動販売機があるので、交通費以外に用意していただいても大丈夫）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item14-mobile" data-item="item14">
-                                <label for="item14-mobile">☂️ 折りたたみ傘</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item15-mobile" data-item="item15">
-                                <label for="item15-mobile">🥿 スリッパや上履きなど（任意）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item16-mobile" data-item="item16">
-                                <label for="item16-mobile">🍽️ アレルギーチェックシート（未提出者）</label>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="item17-mobile" data-item="item17">
-                                <label for="item17-mobile">🧣 防寒類の持参（任意）</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="drink-notice">
-                    <p class="section-note">
-                        💧 <strong>飲み物について</strong><br>
-                        こちらでペットボトルの水またはお茶を配布しますのでご安心ください。
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- アクセス -->
-        <section id="access" class="section">
-            <div class="container">
-                <h2 class="section-title">アクセス</h2>
-                
-                <div class="access-content">
-                    <!-- PC版用のタブレイアウト -->
-                    <div class="access-pc">
-                        <!-- タブメニュー -->
-                        <div class="access-tabs">
-                            <button class="access-tab-btn active" data-access-tab="car">お車でお越しの方</button>
-                            <button class="access-tab-btn" data-access-tab="train">電車・バスでお越しの方</button>
-                            <button class="access-tab-btn" data-access-tab="kyoto">京都駅からお越しの方</button>
-                        </div>
-                        
-                        <!-- 2カラムレイアウト -->
-                        <div class="access-layout">
-                            <!-- 左側：タブコンテンツ -->
-                            <div class="access-tab-content-wrapper">
-                                <!-- お車でお越しの方 -->
-                                <div class="access-tab-content active" id="access-car">
-                                    <div class="access-info-box">
-                                        <p>
-                                            国道24号線バイパスを<strong>京奈和自動車道方面</strong>へ進み、<br>
-                                            京奈和自動車道入口より、国道24号線にて<br>
-                                            <strong>運動公園線を東へ</strong>お進みください。
-                                        </p>
-                                        <p class="access-note access-note-yellow">
-                                            駐車場は<strong>無料（30分間）</strong>でご利用いただけます。
-                                        </p>
-                                        
-                                        <h3 class="access-subtitle">住所</h3>
-                                        <p>
-                                            <strong>ロゴスランド京都（プラムイン城陽）</strong><br>
-                                            〒610-0121<br>
-                                            京都府城陽市寺田大川原24-4
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <!-- 電車・バスでお越しの方 -->
-                                <div class="access-tab-content" id="access-train">
-                                    <div class="access-info-box">
-                                        <p>
-                                            <strong>JR奈良線・城陽駅前</strong>、または
-                                            <strong>近鉄京都線・寺田駅前</strong>から路線バスに乗車
-                                        </p>
-                                        <p class="access-arrow">
-                                            ↓<br>
-                                            <strong>「プラムイン城陽」停留所で下車</strong>
-                                        </p>
-                                        <p class="access-note access-note-blue">
-                                            運賃：<strong>200円</strong>
-                                        </p>
-                                        
-                                        <h3 class="access-subtitle">住所</h3>
-                                        <p>
-                                            <strong>ロゴスランド京都（プラムイン城陽）</strong><br>
-                                            〒610-0121<br>
-                                            京都府城陽市寺田大川原24-4
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <!-- 京都駅からお越しの方 -->
-                                <div class="access-tab-content" id="access-kyoto">
-                                    <div class="access-info-box">
-                                        <p class="kyoto-team-label">東京・横浜チーム向け</p>
-                                        <div class="access-flow">
-                                            <div class="flow-step">
-                                                <div class="flow-number">1</div>
-                                                <div class="flow-content">
-                                                    <strong>JR京都駅</strong><br>
-                                                    <span class="flow-detail">JR奈良線に乗車</span>
-                                                </div>
-                                            </div>
-                                            <div class="flow-arrow">↓</div>
-                                            <div class="flow-step">
-                                                <div class="flow-number">2</div>
-                                                <div class="flow-content">
-                                                    <strong>JR城陽駅</strong><br>
-                                                    <span class="flow-detail">約25分・運賃 <strong class="fare-highlight">380円</strong></span>
-                                                </div>
-                                            </div>
-                                            <div class="flow-arrow">↓</div>
-                                            <div class="flow-step">
-                                                <div class="flow-number">3</div>
-                                                <div class="flow-content">
-                                                    <strong>城陽駅前バス停</strong><br>
-                                                    <span class="flow-detail">路線バスに乗車</span>
-                                                </div>
-                                            </div>
-                                            <div class="flow-arrow">↓</div>
-                                            <div class="flow-step">
-                                                <div class="flow-number">4</div>
-                                                <div class="flow-content">
-                                                    <strong>プラムイン城陽</strong><br>
-                                                    <span class="flow-detail">約10分・運賃 <strong class="fare-highlight">200円</strong></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="access-note access-note-green">
-                                            <strong>合計運賃：580円</strong>（京都駅～プラムイン城陽）
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- 右側：地図 -->
-                            <div class="map-container">
-                                <!-- Google Map埋め込み（ロゴスランド京都） -->
-                                <iframe 
-                                    class="access-map"
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3274.050111020896!2d135.79500497618534!3d34.854968172865334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600116d2da8f6fdb%3A0xe0957dd752a7c4f8!2z44Ot44K044K544Op44Oz44OJIO-8iExPR09TIExBTkTvvIk!5e0!3m2!1sja!2sus!4v1762429337173!5m2!1sja!2sus" 
-                                    width="600" 
-                                    height="450" 
-                                    allowfullscreen="" 
-                                    loading="lazy" 
-                                    referrerpolicy="no-referrer-when-downgrade">
-                                </iframe>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- SP版用のトグル形式 -->
-                    <div class="access-mobile">
-                        <div class="access-item" data-access-item>
-                            <div class="access-item-header">
-                                <span class="access-item-title">お車でお越しの方</span>
-                                <span class="access-toggle-icon">▼</span>
-                            </div>
-                            <div class="access-item-content">
-                                <p>
-                                    国道24号線バイパスを<strong>京奈和自動車道方面</strong>へ進み、<br>
-                                    京奈和自動車道入口より、国道24号線にて<br>
-                                    <strong>運動公園線を東へ</strong>お進みください。
-                                </p>
-                                <p class="access-note access-note-yellow">
-                                    駐車場は<strong>無料（30分間）</strong>でご利用いただけます。
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="access-item" data-access-item>
-                            <div class="access-item-header">
-                                <span class="access-item-title">電車・バスでお越しの方</span>
-                                <span class="access-toggle-icon">▼</span>
-                            </div>
-                            <div class="access-item-content">
-                                <p>
-                                    <strong>JR奈良線・城陽駅前</strong>、または
-                                    <strong>近鉄京都線・寺田駅前</strong>から路線バスに乗車
-                                </p>
-                                <p class="access-arrow">
-                                    ↓<br>
-                                    <strong>「プラムイン城陽」停留所で下車</strong>
-                                </p>
-                                <p class="access-note access-note-blue">
-                                    運賃：<strong>200円</strong>
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="access-item" data-access-item>
-                            <div class="access-item-header">
-                                <span class="access-item-title">京都駅からお越しの方</span>
-                                <span class="access-toggle-icon">▼</span>
-                            </div>
-                            <div class="access-item-content">
-                                <div class="access-flow-mobile">
-                                    <div class="flow-step-mobile">
-                                        <div class="flow-number-mobile">1</div>
-                                        <div class="flow-text">
-                                            <strong>JR京都駅</strong><br>
-                                            <span>JR奈良線に乗車</span>
-                                        </div>
-                                    </div>
-                                    <div class="flow-arrow-mobile">↓</div>
-                                    <div class="flow-step-mobile">
-                                        <div class="flow-number-mobile">2</div>
-                                        <div class="flow-text">
-                                            <strong>JR城陽駅</strong><br>
-                                            <span>約25分・運賃 <strong>380円</strong></span>
-                                        </div>
-                                    </div>
-                                    <div class="flow-arrow-mobile">↓</div>
-                                    <div class="flow-step-mobile">
-                                        <div class="flow-number-mobile">3</div>
-                                        <div class="flow-text">
-                                            <strong>城陽駅前バス停</strong><br>
-                                            <span>路線バスに乗車</span>
-                                        </div>
-                                    </div>
-                                    <div class="flow-arrow-mobile">↓</div>
-                                    <div class="flow-step-mobile">
-                                        <div class="flow-number-mobile">4</div>
-                                        <div class="flow-text">
-                                            <strong>プラムイン城陽</strong><br>
-                                            <span>約10分・運賃 <strong>200円</strong></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="access-note access-note-green">
-                                    <strong>合計運賃：580円</strong>
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="access-item" data-access-item>
-                            <div class="access-item-header">
-                                <span class="access-item-title">住所</span>
-                                <span class="access-toggle-icon">▼</span>
-                            </div>
-                            <div class="access-item-content">
-                                <p>
-                                    <strong>ロゴスランド京都（プラムイン城陽）</strong><br>
-                                    〒610-0121<br>
-                                    京都府城陽市寺田大川原24-4
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="access-item" data-access-item>
-                            <div class="access-item-header">
-                                <span class="access-item-title">地図</span>
-                                <span class="access-toggle-icon">▼</span>
-                            </div>
-                            <div class="access-item-content">
-                                <div class="map-container-mobile">
-                                    <iframe 
-                                        class="access-map"
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3274.050111020896!2d135.79500497618534!3d34.854968172865334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600116d2da8f6fdb%3A0xe0957dd752a7c4f8!2z44Ot44K044K544Op44Oz44OJIO-8iExPR09TIExBTkTvvIk!5e0!3m2!1sja!2sus!4v1762429337173!5m2!1sja!2sus" 
-                                        width="600" 
-                                        height="300" 
-                                        allowfullscreen="" 
-                                        loading="lazy" 
-                                        referrerpolicy="no-referrer-when-downgrade">
-                                    </iframe>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 健康管理・安全管理 -->
-        <section id="health" class="section">
-            <div class="container">
-                <h2 class="section-title">健康管理・安全管理</h2>
-                
-                <div class="health-card">
-                    <h3>🏥 救急医療機関</h3>
-                    <p>土日祝のため、救急の際は以下の病院を利用することを想定しています</p>
-                    <div class="hospital-info">
-                        <h4>京都岡本記念病院</h4>
-                        <a href="https://www.okamoto-hp.or.jp/oka2/checkup/emergency.html" target="_blank" rel="noopener noreferrer" class="hospital-link">
-                            🏥 救急外来情報を確認する
+                    <div class="floor pixel-card" id="floor-iris-2f" role="tabpanel" data-floor-panel="iris-2f" hidden>
+                        <h3 class="floor__title"><span class="pixel-font">2F</span>アイリスイン城陽</h3>
+                        <ol class="floor__legend">
+                            <li>大浴場・小浴場</li>
+                            <li>女子・男子トイレ</li>
+                            <li>宿泊室</li>
+                            <li>ロビー</li>
+                            <li>LOGOS KID&rsquo;S MINI PARK</li>
+                            <li>カフェ</li>
+                        </ol>
+                        <a href="assets/map/irisinn_2f.png" class="floor__map zoomable" aria-label="アイリスイン城陽 2階フロアマップを拡大して表示">
+                            <img src="assets/map/irisinn_2f.png" alt="アイリスイン城陽 2階フロアマップ" loading="lazy">
                         </a>
                     </div>
                 </div>
+                <p class="floormap__hint">マップの画像をタップすると、<wbr>拡大して表示できます。</p>
             </div>
         </section>
 
-        <!-- お問い合わせ -->
-        <section id="contact" class="section">
+        <!-- ============================================================
+             持ち物チェックリスト
+             ・チェック状態は localStorage に保存（キーは data-item の値。以前のページと共通）
+             ============================================================ -->
+        <section class="section" id="items" aria-labelledby="items-title">
+            <img src="assets/img/snowman.svg" alt="" class="deco deco--snowman" width="1327" height="1186" loading="lazy">
             <div class="container">
-                <h2 class="section-title">お問い合わせ</h2>
-                
-                <div class="contact-grid">
-                    <div class="contact-card">
-                        <h3>📧 メールでのお問い合わせ</h3>
-                        <p><a href="mailto:support@be-engineer.tech">support@be-engineer.tech</a></p>
-                        <p class="contact-note">ご質問はお気軽にどうぞ</p>
+                <div class="section-head">
+                    <p class="section-head__en">CHECKLIST</p>
+                    <h2 class="section-title" id="items-title">持ち物チェックリスト</h2>
+                </div>
+
+                <div class="checklist-box pixel-card" data-checklist>
+                    <div class="progress" aria-live="polite">
+                        <p class="progress__label"><span class="pixel-font">READY</span><span data-progress-text>0 / 17</span></p>
+                        <div class="progress__bar" role="progressbar" aria-label="持ち物の準備状況" aria-valuemin="0" aria-valuemax="17" aria-valuenow="0" data-progress-bar>
+                            <span class="progress__fill" data-progress-fill></span>
+                        </div>
+                        <p class="progress__done" data-progress-done hidden>準備完了！ 忘れ物はないかな？</p>
+                        <p class="progress__note">※チェック状態は自動保存されます</p>
                     </div>
-                
-                    <!-- 緊急連絡先：合宿期間中の確認用に表示中。
-                         非表示にするときは、下の div に hidden を付けてください。 -->
-                    <div class="contact-card contact-card-emergency">
-                        <h3>☎️ 緊急連絡先（合宿期間中）</h3>
-                        <p><a href="tel:080-3318-8387">080-3318-8387</a></p>
-                        <p class="contact-note">※合宿期間中のみ対応</p>
+
+                    <div class="checklist-groups">
+                        <fieldset class="checklist-group">
+                            <legend class="checklist-group__title">学習・連絡</legend>
+                            <div class="checklist-item"><input type="checkbox" id="item1" data-item="item1"><label for="item1">PC（貸出あり・持参推奨）</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item2" data-item="item2"><label for="item2">電源コード・充電ケーブル</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item3" data-item="item3"><label for="item3">ノート・筆記用具</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item12" data-item="item12"><label for="item12">スマートフォン（連絡用）</label></div>
+                        </fieldset>
+                        <fieldset class="checklist-group">
+                            <legend class="checklist-group__title">書類・健康</legend>
+                            <div class="checklist-item"><input type="checkbox" id="item4" data-item="item4"><label for="item4">マイナンバーカードのコピー<small>（保険証として利用することが目的）</small></label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item16" data-item="item16"><label for="item16">アレルギーチェックシート<small>（未提出者）</small></label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item9" data-item="item9"><label for="item9">常備薬<small>（必要な方）</small></label></div>
+                        </fieldset>
+                        <fieldset class="checklist-group">
+                            <legend class="checklist-group__title">生活用品</legend>
+                            <div class="checklist-item"><input type="checkbox" id="item5" data-item="item5"><label for="item5">歯ブラシ・洗面用具</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item6" data-item="item6"><label for="item6">衣服<small>（2泊3日分・寝巻き推奨）</small></label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item7" data-item="item7"><label for="item7">バスタオル</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item8" data-item="item8"><label for="item8">ハンドタオル</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item15" data-item="item15"><label for="item15">スリッパや上履きなど<small>（任意）</small></label></div>
+                        </fieldset>
+                        <fieldset class="checklist-group">
+                            <legend class="checklist-group__title">防寒・その他</legend>
+                            <div class="checklist-item"><input type="checkbox" id="item10" data-item="item10"><label for="item10">羽織もの<small>（館内は空調完備）</small></label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item17" data-item="item17"><label for="item17">防寒類の持参<small>（任意）</small></label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item14" data-item="item14"><label for="item14">折りたたみ傘</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item11" data-item="item11"><label for="item11">飲み物</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="item13" data-item="item13"><label for="item13">お金<small>（自動販売機があるので、交通費以外に用意していただいても大丈夫）</small></label></div>
+                        </fieldset>
+                    </div>
+
+                    <div class="checklist-box__foot">
+                        <p class="info-note">
+                            <strong>飲み物について</strong><br>
+                            こちらでペットボトルの水またはお茶を配布しますのでご安心ください。
+                        </p>
+                        <button type="button" class="btn-reset" data-checklist-reset>チェックをすべて外す</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- フッター（共通コンポーネント / assets/footer.js が描画） -->
-        <div id="site-footer"></div>
+        <!-- ============================================================
+             アクセス
+             ============================================================ -->
+        <section class="section" id="access" aria-labelledby="access-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">ACCESS</p>
+                    <h2 class="section-title" id="access-title">アクセス</h2>
+                </div>
 
+                <div class="tabs tabs--access" role="tablist" aria-label="アクセス方法の切り替え" data-access-tabs>
+                    <button type="button" class="tab" role="tab" id="tab-access-car" aria-controls="access-car" aria-selected="true" data-access-tab="car">お車で<br class="br-sp">お越しの方</button>
+                    <button type="button" class="tab" role="tab" id="tab-access-train" aria-controls="access-train" aria-selected="false" data-access-tab="train" tabindex="-1">電車・バスで<br class="br-sp">お越しの方</button>
+                    <button type="button" class="tab" role="tab" id="tab-access-kyoto" aria-controls="access-kyoto" aria-selected="false" data-access-tab="kyoto" tabindex="-1">京都駅から<br class="br-sp">お越しの方</button>
+                </div>
+
+                <div class="access">
+                    <div class="access__info pixel-card">
+                        <!-- お車でお越しの方 -->
+                        <div class="access__panel" id="access-car" role="tabpanel" aria-labelledby="tab-access-car">
+                            <p>
+                                国道24号線バイパスを<strong>京奈和自動車道方面</strong>へ進み、
+                                京奈和自動車道入口より、国道24号線にて
+                                <strong>運動公園線を東へ</strong>お進みください。
+                            </p>
+                            <p class="callout">駐車場は<strong>無料（30分間）</strong>でご利用いただけます。</p>
+                        </div>
+
+                        <!-- 電車・バスでお越しの方 -->
+                        <div class="access__panel" id="access-train" role="tabpanel" aria-labelledby="tab-access-train" hidden>
+                            <ol class="route">
+                                <li class="route__step"><span class="route__num">1</span><div><strong>JR奈良線・城陽駅前</strong>、または<strong>近鉄京都線・寺田駅前</strong><span class="route__detail">路線バスに乗車</span></div></li>
+                                <li class="route__step"><span class="route__num">2</span><div><strong>「プラムイン城陽」停留所で下車</strong><span class="route__detail">運賃：200円</span></div></li>
+                            </ol>
+                        </div>
+
+                        <!-- 京都駅からお越しの方 -->
+                        <div class="access__panel" id="access-kyoto" role="tabpanel" aria-labelledby="tab-access-kyoto" hidden>
+                            <p class="access__target">東京・横浜チーム向け</p>
+                            <ol class="route">
+                                <li class="route__step"><span class="route__num">1</span><div><strong>JR京都駅</strong><span class="route__detail">JR奈良線に乗車</span></div></li>
+                                <li class="route__step"><span class="route__num">2</span><div><strong>JR城陽駅</strong><span class="route__detail">約25分・運賃 <b>380円</b></span></div></li>
+                                <li class="route__step"><span class="route__num">3</span><div><strong>城陽駅前バス停</strong><span class="route__detail">路線バスに乗車</span></div></li>
+                                <li class="route__step"><span class="route__num">4</span><div><strong>プラムイン城陽</strong><span class="route__detail">約10分・運賃 <b>200円</b></span></div></li>
+                            </ol>
+                            <p class="callout"><strong>合計運賃：580円</strong>（京都駅～プラムイン城陽）</p>
+                        </div>
+
+                        <div class="access__address">
+                            <h3 class="card-heading">住所</h3>
+                            <p>
+                                <strong>ロゴスランド京都（プラムイン城陽）</strong><br>
+                                〒610-0121<br>
+                                京都府城陽市寺田大川原24-4
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="access__map pixel-card">
+                        <!-- Google Map埋め込み（ロゴスランド京都） -->
+                        <iframe
+                            title="ロゴスランド京都の地図"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3274.050111020896!2d135.79500497618534!3d34.854968172865334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600116d2da8f6fdb%3A0xe0957dd752a7c4f8!2z44Ot44K044K544Op44Oz44OJIO-8iExPR09TIExBTkTvvIk!5e0!3m2!1sja!2sus!4v1762429337173!5m2!1sja!2sus"
+                            width="600"
+                            height="450"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             健康管理・安全管理
+             ============================================================ -->
+        <section class="section section--blue" id="health" aria-labelledby="health-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">HEALTH &amp; SAFETY</p>
+                    <h2 class="section-title" id="health-title">健康管理・安全管理</h2>
+                </div>
+                <div class="health">
+                    <div class="health__card pixel-card">
+                        <h3 class="card-heading">救急医療機関</h3>
+                        <p>土日祝のため、救急の際は以下の病院を利用することを想定しています。</p>
+                        <div class="health__hospital-box">
+                            <p class="health__hospital">京都岡本記念病院</p>
+                            <a href="https://www.okamoto-hp.or.jp/oka2/checkup/emergency.html" target="_blank" rel="noopener noreferrer" class="btn btn--sub btn--small">救急外来情報を確認する</a>
+                        </div>
+                    </div>
+                    <div class="health__card pixel-card">
+                        <h3 class="card-heading">食物アレルギーについて</h3>
+                        <p>事前にご提出いただく<strong>「食物アレルギー事前調査票」</strong>をもとに確認させていただきます。当日、アレルギー成分を含むメニューがある場合は、対象の方へ別の食事（除去食・代替食）をご用意いたします。</p>
+                        <p class="health__small">ただし、調理過程におけるアレルギー物質の微量混入（コンタミネーション）への完全な配慮はできかねます。重度のアレルギーをお持ちの場合は、ロゴスランドでは対応できないので、あらかじめご了承ください。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             合宿ブログ
+             ・各日のボタンは data-available-from の日時より前は「準備中」になります（script.js）
+             ============================================================ -->
+        <section class="section" id="blog" aria-labelledby="blog-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">CAMP BLOG</p>
+                    <h2 class="section-title" id="blog-title">合宿ブログ</h2>
+                    <img src="assets/img/kids-play.svg" alt="" class="head-deco head-deco--left head-deco--kids" width="1312" height="1199" loading="lazy">
+                    <img src="assets/img/cloud-left.svg" alt="" class="head-deco head-deco--right head-deco--cloud" width="2172" height="724" loading="lazy">
+                </div>
+                <p class="section-lead">合宿の様子はこちらから公開予定です。<br class="br-sp">各日の記事は当日以降に順次公開します。</p>
+
+                <ul class="blog-days">
+                    <li><a href="blog/day1.html" class="blog-day pixel-card" data-available-from="2026-12-26T00:00:00">
+                        <span class="blog-day__num pixel-font">DAY 1</span>
+                        <span class="blog-day__date">12月26日(土)</span>
+                        <span class="blog-day__state" data-blog-state>記事を読む</span>
+                    </a></li>
+                    <li><a href="blog/day2.html" class="blog-day pixel-card" data-available-from="2026-12-27T00:00:00">
+                        <span class="blog-day__num pixel-font">DAY 2</span>
+                        <span class="blog-day__date">12月27日(日)</span>
+                        <span class="blog-day__state" data-blog-state>記事を読む</span>
+                    </a></li>
+                    <li><a href="blog/day3.html" class="blog-day pixel-card" data-available-from="2026-12-28T00:00:00">
+                        <span class="blog-day__num pixel-font">DAY 3</span>
+                        <span class="blog-day__date">12月28日(月)</span>
+                        <span class="blog-day__state" data-blog-state>記事を読む</span>
+                    </a></li>
+                </ul>
+
+                <ul class="blog-notice">
+                    <li>参加者限定の情報です。</li>
+                    <li>広報用に利用するものではありません。</li>
+                    <li>広報利用する際は、内容および写真を変更する予定です。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             お問い合わせ・緊急連絡先
+             ============================================================ -->
+        <section class="section" id="contact" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="section-head__en">CONTACT</p>
+                    <h2 class="section-title" id="contact-title">お問い合わせ・緊急連絡先</h2>
+                </div>
+                <div class="contact">
+                    <div class="contact__card pixel-card">
+                        <h3 class="card-heading">メールでのお問い合わせ</h3>
+                        <p class="contact__value"><a href="mailto:support@be-engineer.tech">support@be-engineer.tech</a></p>
+                        <p class="contact__note">ご質問はお気軽にどうぞ</p>
+                    </div>
+
+                    <!-- 緊急連絡先：合宿期間中の確認用に表示中。
+                         非表示にするときは、下の div に hidden を付けてください。 -->
+                    <div class="contact__card contact__card--emergency pixel-card">
+                        <h3 class="card-heading">緊急連絡先（合宿期間中）</h3>
+                        <p class="contact__value contact__value--tel"><a href="tel:080-3318-8387">080-3318-8387</a></p>
+                        <p class="contact__note">※合宿期間中のみ対応</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- JavaScript -->
-    <script src="assets/sidebar.js"></script>
+    <!-- フッター（共通コンポーネント / assets/layout.js が描画） -->
+    <div id="site-footer"></div>
+
+    <a href="#top" class="to-top" data-to-top aria-label="ページの先頭へ戻る" hidden><span aria-hidden="true">▲</span><span class="pixel-font">TOP</span></a>
+    <p class="toast" data-toast role="status" aria-live="polite" hidden></p>
+
+    <script src="assets/layout.js"></script>
     <!-- スケジュール（データ: schedule-data.js / 描画: schedule.js） -->
     <script src="assets/schedule-data.js"></script>
     <script src="assets/schedule.js"></script>
     <script src="script.js"></script>
-    <script src="assets/footer.js"></script>
     <!-- 引率講師の紹介（内容の編集は assets/teachers.js を参照） -->
     <script src="assets/teachers.js"></script>
-    <!-- お知らせセクション（内容の編集は assets/news.js を参照） -->
+    <!-- お知らせ（内容の編集は assets/news.js を参照） -->
     <script src="assets/news.js"></script>
-
 </body>
 </html>
-

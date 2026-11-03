@@ -134,22 +134,8 @@ const NEWS_ITEMS = [
     container.innerHTML = NEWS_ITEMS.map(buildCard).join('');
   }
 
-  // お知らせセクションの開閉トグル（上のLINEセクションと同じ挙動）
-  function initNewsToggle() {
-    var newsBox = document.querySelector('[data-news-toggle]');
-    if (!newsBox) return;
-
-    var header = newsBox.querySelector('.news-toggle-header');
-    if (!header) return;
-
-    header.addEventListener('click', function () {
-      newsBox.classList.toggle('active');
-    });
-  }
-
   function init() {
     renderNews();
-    initNewsToggle();
   }
 
   if (document.readyState === 'loading') {
