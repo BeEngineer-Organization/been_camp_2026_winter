@@ -2529,6 +2529,16 @@ body.teacher-modal-open {
     top: calc(50% + 14px);
 }
 
+/* PC：子どものイラストがタイトル・説明文に近いので、外側かつ少し上へ離す（雲も左右対称に外へ） */
+#blog .head-deco--kids {
+    top: calc(50% - 8px);
+    left: max(0px, 50% - 490px);
+}
+
+#blog .head-deco--cloud {
+    right: max(0px, 50% - 490px);
+}
+
 /* 説明文：文字は左揃えのまま、文章のかたまりを中央に置く */
 #blog .section-lead {
     width: fit-content;
@@ -3689,6 +3699,12 @@ body.teacher-modal-open {
 
     .chapter__head {
         flex-direction: column;
+    }
+
+    /* 2行目に回る題名は白枠の中央に置く */
+    .chapter__title {
+        align-self: center;
+        text-align: center;
     }
 
     .chapter__text {
