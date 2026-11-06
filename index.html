@@ -88,22 +88,14 @@
 
                     <div class="line-card">
                         <h3 class="card-heading">合宿連絡用のLINEアカウント</h3>
-                        <!-- ============================================================
-                             冬合宿用 LINE QR の差し替え場所
-                             1. 画像を assets/guide/ に置く（例: BeEn2026winter_LINE_QR.png）
-                             2. 下のプレースホルダーを削除し、img のコメントを外す
-                             3. リンクの「準備中」を外し、新しい URL を a href に入れる
-                             ============================================================ -->
+                        <!-- 冬合宿用 LINE（QR は LINE 公式の画像 URL をそのまま表示） -->
                         <div class="line-card__body">
-                            <div class="line-card__qr line-card__qr--placeholder" aria-label="QRコード準備中">
-                                <span>QRコード<br>準備中</span>
-                            </div>
-                            <!-- <img src="assets/guide/BeEn2026winter_LINE_QR.png" alt="BeEngineer合宿2026冬 LINE QRコード" class="line-card__qr" width="160" height="160"> -->
+                            <img src="https://qr-official.line.me/gs/M_596jotay_GW.png?oat_content=qr" alt="LINEアカウント「BeEngineer_合宿_2026_冬」の友だち追加QRコード" class="line-card__qr" width="160" height="160" loading="lazy">
                             <div class="line-card__text">
-                                <p class="line-card__name">アカウント名（準備中）</p>
+                                <p class="line-card__label">アカウント名</p>
+                                <p class="line-card__name">BeEngineer_<wbr>合宿_<wbr>2026_<wbr>冬</p>
                                 <p class="line-card__link">
-                                    <span class="tag-pending">準備中</span>
-                                    <!-- <a href="https://lin.ee/" target="_blank" rel="noopener noreferrer">https://lin.ee/</a> -->
+                                    <a href="https://lin.ee/RV2nqWf" target="_blank" rel="noopener noreferrer">https://lin.ee/RV2nqWf</a>
                                 </p>
                                 <p>合宿関連のご連絡はこちらから送らせていただきます。</p>
                             </div>
@@ -316,14 +308,8 @@
                 </div>
                 <p class="section-lead">ロゴスランドの館内マップです。各階の施設配置をご確認ください。</p>
 
-                <!-- 施設タブ：プラムイン城陽 / アイリスイン城陽 -->
-                <div class="tabs tabs--facility" role="tablist" aria-label="施設の切り替え" data-facility-tabs>
-                    <button type="button" class="tab" role="tab" id="tab-facility-plum" aria-controls="facility-plum" aria-selected="true" data-facility="plum">プラムイン城陽</button>
-                    <button type="button" class="tab" role="tab" id="tab-facility-iris" aria-controls="facility-iris" aria-selected="false" data-facility="iris" tabindex="-1">アイリスイン城陽</button>
-                </div>
-
-                <!-- プラムイン城陽 -->
-                <div class="facility" id="facility-plum" role="tabpanel" aria-labelledby="tab-facility-plum" data-facility-panel="plum">
+                <!-- 冬合宿はプラムイン城陽のみ（アイリスイン城陽は掲載しない） -->
+                <div class="facility" id="facility-plum">
                     <div class="floor-tabs" role="tablist" aria-label="プラムイン城陽の階" data-floor-tabs>
                         <button type="button" class="floor-tab" role="tab" aria-selected="true" aria-controls="floor-plum-1f" data-floor="plum-1f">1 F</button>
                         <button type="button" class="floor-tab" role="tab" aria-selected="false" aria-controls="floor-plum-2f" data-floor="plum-2f" tabindex="-1">2 F</button>
@@ -372,40 +358,6 @@
                     </div>
                 </div>
 
-                <!-- アイリスイン城陽 -->
-                <div class="facility" id="facility-iris" role="tabpanel" aria-labelledby="tab-facility-iris" data-facility-panel="iris" hidden>
-                    <div class="floor-tabs" role="tablist" aria-label="アイリスイン城陽の階" data-floor-tabs>
-                        <button type="button" class="floor-tab" role="tab" aria-selected="true" aria-controls="floor-iris-1f" data-floor="iris-1f">1 F</button>
-                        <button type="button" class="floor-tab" role="tab" aria-selected="false" aria-controls="floor-iris-2f" data-floor="iris-2f" tabindex="-1">2 F</button>
-                    </div>
-                    <div class="floor pixel-card" id="floor-iris-1f" role="tabpanel" data-floor-panel="iris-1f">
-                        <h3 class="floor__title"><span class="pixel-font">1F</span>アイリスイン城陽</h3>
-                        <ol class="floor__legend">
-                            <li>実演スペース</li>
-                            <li>ショップ</li>
-                            <li>ロビー＆ショップ</li>
-                            <li>宿泊室</li>
-                            <li>女子・男子トイレ</li>
-                        </ol>
-                        <a href="assets/map/irisinn_1f.png" class="floor__map zoomable" aria-label="アイリスイン城陽 1階フロアマップを拡大して表示">
-                            <img src="assets/map/irisinn_1f.png" alt="アイリスイン城陽 1階フロアマップ" loading="lazy">
-                        </a>
-                    </div>
-                    <div class="floor pixel-card" id="floor-iris-2f" role="tabpanel" data-floor-panel="iris-2f" hidden>
-                        <h3 class="floor__title"><span class="pixel-font">2F</span>アイリスイン城陽</h3>
-                        <ol class="floor__legend">
-                            <li>大浴場・小浴場</li>
-                            <li>女子・男子トイレ</li>
-                            <li>宿泊室</li>
-                            <li>ロビー</li>
-                            <li>LOGOS KID&rsquo;S MINI PARK</li>
-                            <li>カフェ</li>
-                        </ol>
-                        <a href="assets/map/irisinn_2f.png" class="floor__map zoomable" aria-label="アイリスイン城陽 2階フロアマップを拡大して表示">
-                            <img src="assets/map/irisinn_2f.png" alt="アイリスイン城陽 2階フロアマップ" loading="lazy">
-                        </a>
-                    </div>
-                </div>
                 <p class="floormap__hint">マップの画像をタップすると、<wbr>拡大して表示できます。</p>
             </div>
         </section>

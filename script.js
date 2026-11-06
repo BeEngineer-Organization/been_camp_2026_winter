@@ -388,7 +388,7 @@ function updateScheduleNote(activeTabId) {
   });
 }
 
-/* フロアマップ：施設タブ（プラムイン / アイリスイン）＋ 各施設の階タブ */
+/* フロアマップ：階タブ（施設タブ [data-facility-tabs] は複数施設を載せるときだけ使う） */
 function initFacilityTabs() {
   const facilityTabs = document.querySelector('[data-facility-tabs]');
   if (facilityTabs) setupTablist(facilityTabs);
