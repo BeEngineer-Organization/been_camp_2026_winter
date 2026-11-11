@@ -26,25 +26,71 @@ document.addEventListener('DOMContentLoaded', () => {
   initToTop();
 });
 
+/* ============================================
+   表示スイッチ（true = 表示 / false = 非表示）
+   ============================================ */
+// アクセス「京都駅からお越しの方」タブ（東京・横浜チーム向け）
+//   関東チームが参加 → true / 不参加 → false
+const SHOW_ACCESS_FROM_KYOTO = true;
+
 const CAMP_START = new Date(2026, 11, 26); // 合宿初日 12/26（月は 0 始まり）
 const CAMP_END = new Date(2026, 11, 28); // 最終日 12/28
 
 /* ============================================
    メニュー（ヘッダーの MENU ボタン / SP はハンバーガー）
    ============================================ */
+/**
+ * 閉じるアニメーション（.is-closing）を再生してから done() を呼ぶ。
+ * アニメーションが無効・終わらない場合も 400ms で必ず閉じる。
+ * 戻り値の関数を呼ぶと、閉じている途中でも取り消せる（すぐ開き直したとき用）。
+ */
+function playCloseAnimation(el, done) {
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(timer);
+    el.removeEventListener('animationend', onEnd);
+    el.classList.remove('is-closing');
+    done();
+  };
+  const onEnd = (event) => {
+    if (event.animationName.endsWith('-out')) finish();
+  };
+  const timer = setTimeout(finish, 400);
+  el.addEventListener('animationend', onEnd);
+  el.classList.add('is-closing');
+  return () => {
+    finished = true;
+    clearTimeout(timer);
+    el.removeEventListener('animationend', onEnd);
+    el.classList.remove('is-closing');
+  };
+}
+
 function initMenu() {
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('site-menu');
   if (!toggle || !menu) return;
 
+  let cancelClose = null;
   const setOpen = (open) => {
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
-    menu.hidden = !open;
     document.body.classList.toggle('is-menu-open', open);
+    if (cancelClose) {
+      cancelClose();
+      cancelClose = null;
+    }
     if (open) {
+      menu.hidden = false;
       const first = menu.querySelector('a');
       if (first) first.focus({ preventScroll: true });
+    } else if (!menu.hidden) {
+      cancelClose = playCloseAnimation(menu, () => {
+        menu.hidden = true;
+        cancelClose = null;
+      });
     }
   };
 
@@ -57,7 +103,7 @@ function initMenu() {
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !menu.hidden) {
+    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
       setOpen(false);
       toggle.focus();
     }
@@ -398,7 +444,14 @@ function initFacilityTabs() {
 /* アクセス：お車 / 電車・バス / 京都駅から */
 function initAccessTabs() {
   const tablist = document.querySelector('[data-access-tabs]');
-  if (tablist) setupTablist(tablist);
+  if (!tablist) return;
+
+  // スイッチが false のときは「京都駅から」のタブと中身を取り除く
+  if (!SHOW_ACCESS_FROM_KYOTO) {
+    tablist.querySelector('[data-access-tab="kyoto"]')?.remove();
+    document.getElementById('access-kyoto')?.remove();
+  }
+  setupTablist(tablist);
 }
 
 /* ============================================
@@ -707,11 +760,20 @@ function initBlogTocMobile(links) {
   modal.innerHTML = '<div class="blog-toc-modal__panel pixel-card"><p class="blog-toc-modal__title">目次</p><ul></ul></div><button type="button" class="blog-toc-modal__close" aria-label="閉じる">×</button>';
   document.body.appendChild(modal);
 
+  let cancelClose = null;
   const closeModal = () => {
-    modal.classList.remove('open');
+    if (!modal.classList.contains('open') || cancelClose) return;
     document.body.classList.remove('is-menu-open');
+    cancelClose = playCloseAnimation(modal, () => {
+      modal.classList.remove('open');
+      cancelClose = null;
+    });
   };
   const openModal = () => {
+    if (cancelClose) {
+      cancelClose();
+      cancelClose = null;
+    }
     modal.classList.add('open');
     document.body.classList.add('is-menu-open');
   };

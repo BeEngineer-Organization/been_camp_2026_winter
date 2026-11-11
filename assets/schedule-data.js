@@ -82,22 +82,22 @@ window.SCHEDULE_DAYS = [
     active: false,
     items: [
       {
-        time: '6:30～7:00',
+        time: '6:00～7:00',
         location: '各部屋',
         activity: '起床',
         note: '各班で協力して起床',
       },
       {
         time: '7:00～8:00',
-        location: '研修室1～4',
-        activity: '朝活（授業）',
-        note: '全体での朝の活動',
-      },
-      {
-        time: '8:00～9:00',
         location: '1Fレストラン',
         activity: '朝食',
         note: '班ごとに食事',
+      },
+      {
+        time: '8:00～9:00',
+        location: '研修室1～4',
+        activity: '朝活（授業）',
+        note: '全体での朝の活動',
       },
       {
         time: '9:00～12:00',
@@ -142,7 +142,7 @@ window.SCHEDULE_DAYS = [
     active: false,
     items: [
       {
-        time: '6:30～7:00',
+        time: '6:00～7:00',
         location: '各部屋',
         activity: '起床',
         note: '各班で協力して起床',

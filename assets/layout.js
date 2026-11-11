@@ -74,7 +74,7 @@
       <nav class="site-menu__panel pixel-card" aria-label="すべてのメニュー">
         <p class="site-menu__title"><span class="pixel-font">MENU</span></p>
         <ol class="site-menu__list">
-          ${NAV_ITEMS.map((item, i) => `<li><a href="${anchor(item.id)}" class="site-menu__link" data-nav-link="${item.id}"><span class="site-menu__num">${String(i + 1).padStart(2, '0')}</span><span>${item.menuLabel || item.label}</span></a></li>`).join('')}
+          ${NAV_ITEMS.map((item, i) => `<li style="--i:${i}"><a href="${anchor(item.id)}" class="site-menu__link" data-nav-link="${item.id}"><span class="site-menu__num">${String(i + 1).padStart(2, '0')}</span><span>${item.menuLabel || item.label}</span></a></li>`).join('')}
         </ol>
         <div class="site-menu__blog">
           <p class="site-menu__sub">合宿ブログ</p>
