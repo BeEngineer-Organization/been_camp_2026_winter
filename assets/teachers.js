@@ -12,12 +12,14 @@
 //
 // ■ 校舎（タブ）の設定項目
 //     label   … タブに表示する校舎名（例：「京大本校」）
+//     hidden  … true にするとタブごと非表示（データは残したまま隠せる）。省略時は表示
 //     members … その校舎の講師の配列（下記）
 //
 // ■ 講師カードの設定項目（members の中の { ... } 1つ＝講師1人）
 //     name        … 講師の名前（カード・モーダルに表示されます）
 //     image       … 顔写真の画像パス。空 "" のままなら写真プレースホルダーが表示されます
 //                   例: 'assets/teachers/yamada.jpg'
+//                   ※ 写真は 480×480px の正方形 JPG にそろえています（カード・モーダルとも同じ大きさで表示）
 //     affiliation … 所属（モーダルに表示。未入力なら「準備中」表示）
 //     hobby       … 趣味（モーダルに表示。未入力なら「準備中」表示）
 //     message     … 【教えるにあたっての思い】の本文（モーダルに表示。未入力なら仮テキスト）
@@ -42,10 +44,24 @@ const TEACHERS = [
     members: [
       {
         name: '井ノ本 洋斗',
-        image: 'assets/teachers/inomoto_portrait.png',
+        image: 'assets/teachers/inomoto.jpg',
         affiliation: '-', // 例: '京大本校' や '京都大学 ○○学部'
         hobby: '小さなケーキ屋さんめぐり', // 例: '登山・読書'
         message: 'どれだけ価値のあることでも、興味がなければ前向きに勉強するのは難しいものです。なので、学びよりも先に「その先にどんな面白いことが待っているのか」を伝えることにこだわっています。 日本・世界をリードするようなエンジニアがBeEngineerから輩出することが僕の野望です！そのための授業を作っていくので、ついてきてください！',
+      },
+      {
+        name: '市川 弦慈',
+        image: 'assets/teachers/ichikawa.jpg',
+        affiliation: '京都大学 工学部 電気電子工学科',
+        hobby: '電子工作（PCキーボード）、ベース',
+        message: 'プログラミングが理解でき、実際に運用されているサービスに関心が持てるような授業を目指すとともに、楽しい学習環境の構築を意識しています。',
+      },
+      {
+        name: '岡田 琉依',
+        image: 'assets/teachers/okada.jpg',
+        affiliation: '京都大学 工学部 情報学科',
+        hobby: '旅行、麻雀',
+        message: 'コードをたくさん書いてみることを通して生徒が自ら論理的に考えていけるような授業を目指しています。プログラミングへの理解を深めながら楽しんで勉強していきましょう。',
       },
       // ▼ 講師を追加するときは、下の箱の「//」を外して中身を入力（1人＝1つの { ... }）
       // {
@@ -64,10 +80,31 @@ const TEACHERS = [
     members: [
       {
         name: '藤原 圭吾',
-        image: 'assets/teachers/fujiwara_portrait.png',
+        image: 'assets/teachers/fujiwara.jpg',
         affiliation: '-',
         hobby: '読書 ゲーム 観光（特に神社巡り）',
         message: '「ワクワクするもの！」「面白いもの！」を一緒に作れるようになりませんか？そのための「実践的なプログラミング」を楽しく教える・伝えることを意識しています。 BeEngineerを通し、一緒に学んでいきましょう！',
+      },
+      {
+        name: '坂本 光志朗',
+        image: 'assets/teachers/sakamoto.jpg',
+        affiliation: '大阪大学 工学部 電子情報工学科',
+        hobby: 'アカペラ・音楽鑑賞',
+        message: '学べば学ぶほど、プログラミングというものは奥深く難しいものだということがわかるはずです。しかし、それを自分のものにした時の嬉しさや楽しさもまた大きなものです。そして、その知識や経験を使って自分の考えていることを形にできたとき、大きな達成感を味わうことができるでしょう。授業を通して、その過程をお手伝いできればと思っています。',
+      },
+      {
+        name: '小野寺 柊吾',
+        image: 'assets/teachers/onodera.jpg',
+        affiliation: '大阪大学 基礎工学部 情報科学科',
+        hobby: '散歩・日向ぼっこ',
+        message: '「プログラミングを大好きになって欲しい！」私は心の底からそう思っています。好きこそ物の上手なれと言うように面白い、楽しいという感情がまた上達を早めます。情報化が進む今、求められているのは表面的な知識ではなく、深い理解と継続的な学習姿勢です。私はその礎となるプログラミングに対する純粋な喜びをぜひ生徒さんに伝えたいと思っています！',
+      },
+      {
+        name: '川端 健義',
+        image: 'assets/teachers/kawabata.jpg',
+        affiliation: '大阪大学 基礎工学部 情報科学科',
+        hobby: 'ギター・作曲',
+        message: 'プログラミングの面白さは、自分の手でロジックを組み立て、実際に動く形に仕上げるプロセスにあります。必要な機能を自分の力で実装できたときの達成感は格別です。授業では、仕組みの深い理解をサポートし、アイデアを形にする圧倒的な楽しさを全力で伝えていきます！',
       },
       // ▼ 講師を追加するときは、下の箱の「//」を外して中身を入力（1人＝1つの { ... }）
       // {
@@ -83,6 +120,7 @@ const TEACHERS = [
   // ───────── 校舎3：飯田橋校 ─────────
   {
     label: '飯田橋校',
+    hidden: true, // ← 冬合宿は参加なしのため非表示。表示するときは false にする（または行ごと削除）
     members: [
       {
         name: '杉野 迅',
@@ -201,7 +239,10 @@ const TEACHERS = [
     var panelsHtml = '';
     TEACHER_MAP = {};
 
-    TEACHERS.forEach(function (campus, cIndex) {
+    // hidden: true の校舎はタブごと表示しない
+    var campuses = TEACHERS.filter(function (campus) { return campus && !campus.hidden; });
+
+    campuses.forEach(function (campus, cIndex) {
       var label = escapeHtml(campus && campus.label ? campus.label : '校舎' + (cIndex + 1));
       var isActive = cIndex === 0; // 最初の校舎を初期表示
       var tabKey = 'campus-' + cIndex;

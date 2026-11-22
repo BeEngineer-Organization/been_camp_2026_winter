@@ -38,10 +38,18 @@
     box-sizing: border-box;
 }
 
+/* ページ全体のスクロールバーは表示しない（ホイール・トラックパッド・スワイプでのスクロールはそのまま） */
 html {
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--header-h) + 12px);
     -webkit-text-size-adjust: 100%;
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+    width: 0;
 }
 
 body {
@@ -1998,11 +2006,19 @@ body.teacher-modal-open {
     line-height: 1;
 }
 
+/* 写真の元サイズに関係なく、全講師同じ正方形で表示する */
 .teacher-modal-photo-rect {
     width: 200px;
+    aspect-ratio: 1;
     margin: 0 auto;
     border: 4px solid var(--navy);
     overflow: hidden;
+}
+
+.teacher-modal-photo-rect img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .teacher-modal-name {
