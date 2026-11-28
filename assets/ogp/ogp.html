@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <title>OGP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            width: 1200px;
+            min-width: 1200px;
+            height: 1200px;
+            overflow: hidden;
+            position: relative;
+            white-space: nowrap;
+            background: #409ad6;
+            font-family: Inter, "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+            color: #102c47;
+        }
+        .snow {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+        }
+        .card {
+            position: absolute;
+            top: 72px;
+            left: 72px;
+            width: 1056px;
+            height: 880px;
+            background: #fff;
+            clip-path: polygon(
+                24px 0, calc(100% - 24px) 0, calc(100% - 24px) 12px,
+                calc(100% - 12px) 12px, calc(100% - 12px) 24px, 100% 24px,
+                100% calc(100% - 24px), calc(100% - 12px) calc(100% - 24px),
+                calc(100% - 12px) calc(100% - 12px), calc(100% - 24px) calc(100% - 12px),
+                calc(100% - 24px) 100%, 24px 100%, 24px calc(100% - 12px),
+                12px calc(100% - 12px), 12px calc(100% - 24px), 0 calc(100% - 24px),
+                0 24px, 12px 24px, 12px 12px, 24px 12px
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 56px 48px;
+        }
+        .year {
+            padding: 6px 22px 10px;
+            background: #f0b844;
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: 0.14em;
+        }
+        .lead {
+            margin-top: 24px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+        h1 {
+            margin-top: 36px;
+            font-size: 116px;
+            font-weight: 900;
+            line-height: 1.18;
+            letter-spacing: 0.06em;
+        }
+        .sub {
+            margin-top: 18px;
+            font-size: 60px;
+            font-weight: 900;
+            letter-spacing: 0.16em;
+        }
+        .rule {
+            width: 160px;
+            height: 8px;
+            margin: 40px 0 40px;
+            background: #015eb9;
+        }
+        .date {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
+        .place {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            margin-top: 18px;
+            font-size: 44px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
+        .place b {
+            color: #015eb9;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #f0b844;
+        }
+        .logos {
+            position: absolute;
+            left: 0;
+            width: 1200px;
+            bottom: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+        }
+        .logos img { display: block; }
+        .logos .be { height: 64px; width: auto; }
+        .logos .cross {
+            color: #fff;
+            font-size: 40px;
+            font-weight: 800;
+        }
+        .logos .ll { height: 100px; width: auto; }
+    </style>
+</head>
+<body>
+    <span class="snow" style="width:14px;height:14px;top:30px;left:110px"></span>
+    <span class="snow" style="width:8px;height:8px;top:40px;left:420px"></span>
+    <span class="snow" style="width:18px;height:18px;top:26px;right:180px"></span>
+    <span class="snow" style="width:10px;height:10px;top:300px;right:28px"></span>
+    <span class="snow" style="width:10px;height:10px;top:520px;left:26px"></span>
+    <span class="snow" style="width:16px;height:16px;bottom:120px;left:120px"></span>
+    <span class="snow" style="width:12px;height:12px;bottom:150px;right:110px"></span>
+    <span class="snow" style="width:8px;height:8px;bottom:60px;right:300px"></span>
+    <div class="card">
+        <p class="year">2026 WINTER</p>
+        <p class="lead">参加者・保護者のみなさまへ</p>
+        <h1>プログラミング<br>キャンプ</h1>
+        <p class="sub">冬合宿のご案内</p>
+        <div class="rule"></div>
+        <p class="date">12月26日(土) ▸ 28日(月)</p>
+        <p class="place">
+            <span>ロゴスランド京都</span>
+            <span class="dot"></span>
+            <b>2泊3日</b>
+        </p>
+    </div>
+    <div class="logos">
+        <img class="be" src="../img/logo-beengineer-white.svg" alt="">
+        <span class="cross">×</span>
+        <img class="ll" src="../img/logo-logosland-white.svg" alt="">
+    </div>
+</body>
+</html>
