@@ -9,10 +9,12 @@
 //
 // ■ 全体の形
 //   TEACHERS = [ 校舎1, 校舎2, 校舎3, ... ]  ← 校舎ごとのかたまりが並んでいます
+//   表示中の校舎はタブで切り替えず、まとめて並べます。
+//   PC は左から、スマホは上から、この配列の順に並びます。
 //
-// ■ 校舎（タブ）の設定項目
-//     label   … タブに表示する校舎名（例：「京大本校」）
-//     hidden  … true にするとタブごと非表示（データは残したまま隠せる）。省略時は表示
+// ■ 校舎の設定項目
+//     label   … 校舎名（例：「京大本校」）
+//     hidden  … true にするとその校舎ごと非表示（データは残したまま隠せる）。省略時は表示
 //     members … その校舎の講師の配列（下記）
 //
 // ■ 講師カードの設定項目（members の中の { ... } 1つ＝講師1人）
@@ -50,13 +52,6 @@ const TEACHERS = [
         message: 'どれだけ価値のあることでも、興味がなければ前向きに勉強するのは難しいものです。なので、学びよりも先に「その先にどんな面白いことが待っているのか」を伝えることにこだわっています。 日本・世界をリードするようなエンジニアがBeEngineerから輩出することが僕の野望です！そのための授業を作っていくので、ついてきてください！',
       },
       {
-        name: '市川 弦慈',
-        image: 'assets/teachers/ichikawa.jpg',
-        affiliation: '京都大学 工学部 電気電子工学科',
-        hobby: '電子工作（PCキーボード）、ベース',
-        message: 'プログラミングが理解でき、実際に運用されているサービスに関心が持てるような授業を目指すとともに、楽しい学習環境の構築を意識しています。',
-      },
-      {
         name: '岡田 琉依',
         image: 'assets/teachers/okada.jpg',
         affiliation: '京都大学 工学部 情報学科',
@@ -91,20 +86,6 @@ const TEACHERS = [
         affiliation: '大阪大学 工学部 電子情報工学科',
         hobby: 'アカペラ・音楽鑑賞',
         message: '学べば学ぶほど、プログラミングというものは奥深く難しいものだということがわかるはずです。しかし、それを自分のものにした時の嬉しさや楽しさもまた大きなものです。そして、その知識や経験を使って自分の考えていることを形にできたとき、大きな達成感を味わうことができるでしょう。授業を通して、その過程をお手伝いできればと思っています。',
-      },
-      {
-        name: '小野寺 柊吾',
-        image: 'assets/teachers/onodera.jpg',
-        affiliation: '大阪大学 基礎工学部 情報科学科',
-        hobby: '散歩・日向ぼっこ',
-        message: '「プログラミングを大好きになって欲しい！」私は心の底からそう思っています。好きこそ物の上手なれと言うように面白い、楽しいという感情がまた上達を早めます。情報化が進む今、求められているのは表面的な知識ではなく、深い理解と継続的な学習姿勢です。私はその礎となるプログラミングに対する純粋な喜びをぜひ生徒さんに伝えたいと思っています！',
-      },
-      {
-        name: '川端 健義',
-        image: 'assets/teachers/kawabata.jpg',
-        affiliation: '大阪大学 基礎工学部 情報科学科',
-        hobby: 'ギター・作曲',
-        message: 'プログラミングの面白さは、自分の手でロジックを組み立て、実際に動く形に仕上げるプロセスにあります。必要な機能を自分の力で実装できたときの達成感は格別です。授業では、仕組みの深い理解をサポートし、アイデアを形にする圧倒的な楽しさを全力で伝えていきます！',
       },
       // ▼ 講師を追加するときは、下の箱の「//」を外して中身を入力（1人＝1つの { ... }）
       // {
@@ -226,34 +207,22 @@ const TEACHERS = [
   }
 
   function render() {
-    var tabsContainer = document.querySelector('[data-teachers-tabs]');
     var panelsContainer = document.querySelector('[data-teachers-panels]');
-    if (!tabsContainer || !panelsContainer) return; // 講師セクションが無いページでは何もしない
+    if (!panelsContainer) return; // 講師セクションが無いページでは何もしない
 
     if (!Array.isArray(TEACHERS) || TEACHERS.length === 0) {
       panelsContainer.innerHTML = '<p class="teachers-empty">講師情報は準備中です。</p>';
       return;
     }
 
-    var tabsHtml = '';
-    var panelsHtml = '';
+    var groupsHtml = '';
     TEACHER_MAP = {};
 
-    // hidden: true の校舎はタブごと表示しない
+    // hidden: true の校舎は表示しない。並びは配列順（PCは左から、スマホは上から）
     var campuses = TEACHERS.filter(function (campus) { return campus && !campus.hidden; });
 
     campuses.forEach(function (campus, cIndex) {
       var label = escapeHtml(campus && campus.label ? campus.label : '校舎' + (cIndex + 1));
-      var isActive = cIndex === 0; // 最初の校舎を初期表示
-      var tabKey = 'campus-' + cIndex;
-
-      tabsHtml +=
-        '<button class="teachers-tab-btn' + (isActive ? ' active' : '') + '" ' +
-        'data-teachers-tab="' + tabKey + '" role="tab" ' +
-        'aria-selected="' + (isActive ? 'true' : 'false') + '">' +
-        label +
-        '</button>';
-
       var members = (campus && Array.isArray(campus.members)) ? campus.members : [];
       var cardsHtml = '';
       members.forEach(function (member, mIndex) {
@@ -265,44 +234,17 @@ const TEACHERS = [
         cardsHtml = '<p class="teachers-empty">この校舎の講師情報は準備中です。</p>';
       }
 
-      panelsHtml +=
-        '<div class="teachers-panel' + (isActive ? ' active' : '') + '" ' +
-        'data-teachers-content="' + tabKey + '" role="tabpanel">' +
+      groupsHtml +=
+        '<section class="teachers-campus">' +
+        '<h3 class="teachers-campus-label">' + label + '</h3>' +
         '<div class="teachers-grid">' + cardsHtml + '</div>' +
-        '</div>';
+        '</section>';
     });
 
-    tabsContainer.innerHTML = tabsHtml;
-    panelsContainer.innerHTML = panelsHtml;
+    panelsContainer.innerHTML = '<div class="teachers-board">' + groupsHtml + '</div>';
 
-    initTabs(tabsContainer, panelsContainer);
     initDetailButtons(panelsContainer);
     initModal();
-  }
-
-  // 校舎タブの切り替え
-  function initTabs(tabsContainer, panelsContainer) {
-    var tabButtons = tabsContainer.querySelectorAll('.teachers-tab-btn');
-    var panels = panelsContainer.querySelectorAll('[data-teachers-content]');
-
-    tabButtons.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var key = this.getAttribute('data-teachers-tab');
-
-        tabButtons.forEach(function (b) {
-          b.classList.remove('active');
-          b.setAttribute('aria-selected', 'false');
-        });
-        panels.forEach(function (p) {
-          p.classList.remove('active');
-        });
-
-        this.classList.add('active');
-        this.setAttribute('aria-selected', 'true');
-        var target = panelsContainer.querySelector('[data-teachers-content="' + key + '"]');
-        if (target) target.classList.add('active');
-      });
-    });
   }
 
   // 「詳細を見る」ボタン → モーダルを開く

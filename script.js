@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
    ============================================ */
 // アクセス「京都駅からお越しの方」タブ（東京・横浜チーム向け）
 //   関東チームが参加 → true / 不参加 → false
-const SHOW_ACCESS_FROM_KYOTO = true;
+const SHOW_ACCESS_FROM_KYOTO = false;
 
 const CAMP_START = new Date(2026, 11, 26); // 合宿初日 12/26（月は 0 始まり）
 const CAMP_END = new Date(2026, 11, 28); // 最終日 12/28
@@ -455,7 +455,7 @@ function initAccessTabs() {
 }
 
 /* ============================================
-   画像の拡大表示（フロアマップ・集合場所の写真）
+   画像の拡大表示（フロアマップ）
    a.zoomable をクリックすると、別タブではなくページ内のモーダルで拡大表示する。
    Esc・背景・×ボタンで閉じる（JS が動かない環境ではリンク先の画像が開く）
    ============================================ */

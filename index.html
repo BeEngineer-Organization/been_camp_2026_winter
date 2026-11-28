@@ -155,7 +155,7 @@
                     <div class="guide__text">
                         <p class="guide__time"><span class="guide__time-label">1日目</span>13:00ごろから</p>
                         <p class="guide__place">
-                            <strong>JR奈良線・城陽駅の改札前</strong>でスタッフが待機しています<br>
+                            <strong>JR奈良線・城陽駅の改札前</strong>で、スタッフの藤原 圭吾が待機しています<br>
                             （写真の赤枠の範囲にいます！）
                         </p>
                         <p class="guide__place"><strong>13:07発のバス</strong>までご案内します。</p>
@@ -173,12 +173,18 @@
                         </ul>
                         <p class="guide__contact">（判断が難しい場合は、各校舎にご連絡ください。）</p>
                     </div>
-                    <figure class="guide__photo">
-                        <a href="assets/guide/station.jpeg" class="zoomable" aria-label="待ち合わせ場所の写真を拡大して表示">
+                    <div class="guide__aside">
+                        <figure class="guide__staff">
+                            <div class="teacher-photo-circle">
+                                <img src="assets/teachers/fujiwara.jpg" alt="スタッフの藤原 圭吾" width="480" height="480" loading="lazy">
+                            </div>
+                            <figcaption>スタッフ 藤原 圭吾</figcaption>
+                        </figure>
+                        <figure class="guide__photo">
                             <img src="assets/guide/station.jpeg" alt="城陽駅 改札前の待ち合わせ場所（赤枠の範囲）" loading="lazy">
-                        </a>
-                        <figcaption>JR城陽駅 改札前（タップで拡大）</figcaption>
-                    </figure>
+                            <figcaption>JR城陽駅 改札前</figcaption>
+                        </figure>
+                    </div>
                 </div>
             </div>
         </section>
@@ -279,7 +285,8 @@
 
         <!-- ============================================================
              引率講師の紹介
-             ・タブ（校舎）と講師カードの中身は assets/teachers.js の TEACHERS データで管理します。
+             ・校舎と講師カードの中身は assets/teachers.js の TEACHERS データで管理します。
+             ・PCは左が先の校舎・右が次の校舎、スマホは上が先の校舎・下が次の校舎です。
              ============================================================ -->
         <section class="section" id="teachers" aria-labelledby="teachers-title">
             <div class="container">
@@ -290,9 +297,7 @@
                     <img src="assets/img/flake-right.svg" alt="" class="head-deco head-deco--right head-deco--flake" width="471" height="468" loading="lazy">
                 </div>
                 <p class="section-lead">各校舎の引率講師をご紹介します。</p>
-                <!-- 校舎タブ（JSが自動生成） -->
-                <div class="tabs teachers-tabs" data-teachers-tabs role="tablist" aria-label="校舎の切り替え"></div>
-                <!-- 講師カード（JSが自動生成） -->
+                <!-- 講師カード（JSが自動生成。PCは横並び、スマホは校舎ごとに縦積み） -->
                 <div class="teachers-panels" data-teachers-panels></div>
             </div>
         </section>
